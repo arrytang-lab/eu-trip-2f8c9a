@@ -346,6 +346,11 @@ body{
   html .mv{margin-top:7px;padding:5px 9px 5px 7px;gap:6px}
   html .mv-x{font-size:11.5px}
   html .mv-k{font-size:9.4px;padding:1.5px 6px}
+  html .coop-row{flex-wrap:wrap;gap:8px;padding:9px 10px}
+  html .coop-name{flex:1 1 100%;min-width:0;padding:7px 9px}
+  html .coop-big b{font-size:26px}
+  html .coop-meta>div{font-size:11.9px}
+  html .coop-top{gap:12px;padding:11px 12px}
   /* 触屏不依赖 hover */
   .day-hd:hover,.item:hover{background:transparent}
   .chk:hover{border-color:var(--line);background:var(--card)}
@@ -452,11 +457,36 @@ body{
 .mv{display:inline-flex;gap:7px;align-items:baseline;max-width:100%;margin-top:8px;background:var(--red-soft);border:1px solid var(--red-line);border-left:3px solid var(--red);border-radius:9px;padding:5px 11px 5px 8px}
 .mv-k{flex:0 0 auto;font-size:9.8px;font-weight:900;letter-spacing:.5px;color:#fff;background:var(--red);border-radius:999px;padding:1.5px 7px;white-space:nowrap}
 .mv-x{font-size:11.9px;line-height:1.55;font-weight:600;color:var(--red-tx);overflow-wrap:anywhere}
+/* ===== Coop 日票交接卡 ===== */
+.coop-top{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:10px;padding:12px 14px;background:var(--mint-soft);border:1px solid var(--mint-line);border-radius:14px}
+.coop-big{display:flex;align-items:baseline;gap:4px;flex:0 0 auto}
+.coop-big b{font-size:30px;font-weight:900;color:var(--mint-d);line-height:1}
+.coop-big span{font-size:12px;font-weight:800;color:var(--muted)}
+.coop-meta{flex:1 1 240px;min-width:0;display:grid;gap:4px}
+.coop-meta>div{font-size:12.2px;line-height:1.55;color:var(--ink2);overflow-wrap:anywhere}
+.coop-meta b{display:inline-block;min-width:36px;margin-right:7px;font-weight:900;font-size:10.4px;letter-spacing:.6px;color:var(--mint-d);border:1px solid var(--mint-line);border-radius:6px;padding:0 5px;text-align:center}
+.coop-list{display:grid;gap:8px;margin-top:12px}
+.coop-row{display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--mint-line);border-radius:11px}
+.coop-row.on{border-left-color:var(--ok);background:var(--ok-soft)}
+.coop-lb{flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:9px;cursor:pointer}
+.coop-lb input{position:absolute;opacity:0;width:0;height:0}
+.coop-tick{flex:0 0 auto;width:17px;height:17px;border:2px solid var(--line);border-radius:5px;position:relative;background:var(--card)}
+.coop-row.on .coop-tick{background:var(--ok);border-color:var(--ok)}
+.coop-row.on .coop-tick::after{content:'';position:absolute;left:5px;top:1px;width:5px;height:9px;border:solid #fff;border-width:0 2.2px 2.2px 0;transform:rotate(43deg)}
+.coop-k{font-size:12.9px;font-weight:800;color:var(--ink)}
+.coop-row.on .coop-k{text-decoration:line-through;color:var(--muted)}
+.coop-n{font-size:11.4px;font-weight:900;color:var(--mint-d);background:var(--card);border:1px solid var(--mint-line);border-radius:999px;padding:1.5px 9px;white-space:nowrap}
+.coop-row.on .coop-n{color:var(--ok-tx);border-color:var(--ok-line)}
+.coop-name{flex:0 1 150px;min-width:84px;font-size:12.2px;font-family:inherit;color:var(--ink);background:var(--card2);border:1px solid var(--line);border-radius:9px;padding:6px 9px;outline:none}
+.coop-name:focus{border-color:var(--mint-line);box-shadow:0 0 0 3px var(--mint-soft)}
+.coop-name::placeholder{color:var(--muted)}
+.coop-ok{font-size:11.4px;font-weight:900;color:var(--ok-tx);white-space:nowrap}
+#coopCard.done .coop-big b{color:var(--ok)}
 .mbar .mb-tgtg{flex:0 0 auto;margin-left:8px;font-size:11.4px;font-weight:800;color:#0b3d24;background:#7ff0b6;padding:6px 10px;border-radius:999px;display:none}
 .mbar .mb-tgtg.on{display:block}
 
 @media print{
-  html[data-dark="1"]{--ink:#1b2430;--ink2:#3c4a58;--muted:#7c8b96;--line:#e3eaee;--card:#ffffff;--card2:#ffffff;--soft:#f5f8fa;--track:#eef2f5;--tint:#f5f8fa;--bg-a:#fff;--bg-b:#fff;--bg-c:#fff;--hero-a:#fff;--hero-b:#fff;--hero-c:#fff;--now-a:#fff;--now-b:#fff;--nowhd-a:#fff;--nowhd-b:#fff;--red:#c0392b;--red-soft:rgba(192,57,43,.06);--red-line:rgba(192,57,43,.26);--red-tx:#9e2b1f}
+  html[data-dark="1"]{--ink:#1b2430;--ink2:#3c4a58;--muted:#7c8b96;--line:#e3eaee;--card:#ffffff;--card2:#ffffff;--soft:#f5f8fa;--track:#eef2f5;--tint:#f5f8fa;--bg-a:#fff;--bg-b:#fff;--bg-c:#fff;--hero-a:#fff;--hero-b:#fff;--hero-c:#fff;--now-a:#fff;--now-b:#fff;--nowhd-a:#fff;--nowhd-b:#fff;--red:#c0392b;--red-soft:rgba(192,57,43,.06);--red-line:rgba(192,57,43,.26);--red-tx:#9e2b1f;--ok:#1f8a4c;--ok-soft:rgba(31,138,76,.07);--ok-line:rgba(31,138,76,.3);--ok-tx:#186b3b}
   .copybtn,.darkbtn,#btnDark{display:none!important}
   body{background:#fff}
   .orb,.veil,.tools,.now,.mbar,.ioshint{display:none}
@@ -605,6 +635,23 @@ body{
     <div class="cap" style="margin-top:10px">方向记忆：<b>往西飞</b>（去程）＝白天被拉长，先撑住再睡；<b>往东飞</b>（返程）＝白天被压缩，先睡够再撑。</div>
   </section>
 
+  <!-- Coop 日票交接卡 -->
+  <section class="panel" id="coopCard">
+    <h3>🎫 Coop 日票交接清单</h3>
+    <div class="desc">瑞士三天全靠这几张票：<b>现在手上 1 张</b> + <b>到机场找 3 个人拿 3 / 1 / 4 张</b> = <b>9 张</b>；拿到<b>当场用笔填日期</b>，不填等于没票</div>
+    <div class="coop-top">
+      <div class="coop-big"><b id="coopNum">1</b><span>/ 9 张</span></div>
+      <div class="coop-meta">
+        <div><b>时间</b>10 月 1 日（周四）<b>17:30</b> · 16:35 落地 GVA 后直奔到达口</div>
+        <div><b>地点</b>日内瓦机场 <b>到达口（ARRIVALS）</b>→ 取完票再进同一栋楼的火车站大厅</div>
+        <div><b>三个人</b>分别给 <b>3 张</b> / <b>1 张</b> / <b>4 张</b>（下面可填名字）</div>
+        <div><b>当场填</b>01.10.26 / 02.10.26 / 03.10.26，用笔填好再上车</div>
+      </div>
+    </div>
+    <div class="coop-list" id="coopList"></div>
+    <div class="cap" style="margin-top:10px">每拿到一挂就点掉一格；<b>没凑到 9 张必须当场追齐</b>——它管瑞士三天的火车、免费登顶、湖上游船、市内公交。</div>
+  </section>
+
   <!-- CARDS -->
   <div class="grid2">
     <section class="panel">
@@ -614,7 +661,7 @@ body{
         <div class="row"><div class="ic">🧳</div><div><div class="tt">行李寄存前置甩手玩</div><div class="dd">酒庄前台、酒店前台、火车站寄存柜——先把行李丢下再开始逛，不带箱进景点。</div></div></div>
         <div class="row"><div class="ic">📱</div><div><div class="tt">交通卡手机化</div><div class="dd">巴黎 Navigo 在火车座位上用 Apple Pay 开通；波尔多/Pessac 用 24 小时票，一票走 Tram B + A 去机场。</div></div></div>
         <div class="row"><div class="ic">🛒</div><div><div class="tt">超市打折 / 盲袋</div><div class="dd">瑞士主餐靠 Coop 超市（烤鸡腿、沙拉、贴纸食品），晚间用 TGTG App 抢盲袋。</div></div></div>
-        <div class="row"><div class="ic">🎫</div><div><div class="tt">Coop 日票必填日期</div><div class="dd">10/1 日内瓦机场拿到 9 张实体日票，当场用笔填好 01.10.26 / 02.10.26 / 03.10.26，遇查票出示。</div></div></div>
+        <div class="row"><div class="ic">🎫</div><div><div class="tt">Coop 日票凑齐 9 张 + 必填日期</div><div class="dd">10/1 16:35 落地 GVA 后直奔<b>到达口</b>：找 3 个人拿 <b>3 张 / 1 张 / 4 张</b>，加上手上 1 张 = <b>9 张</b>；当场用笔填 01.10.26 / 02.10.26 / 03.10.26，遇查票出示。清单在下方「Coop 日票交接清单」里逐挂勾销。</div></div></div>
         <div class="row"><div class="ic">🚋</div><div><div class="tt">卢森堡公交免费 + T1 直达机场</div><div class="dd">全城公交/电车免费。去机场认准 <b>T1 有轨电车（Aéroport 方向）</b>：火车站门口上车、专用轨道不堵车、约 25 分钟到航站楼 —— 比打车更稳。大件行李先存火车站自助柜再甩手逛老城。</div></div></div>
       </div>
     </section>
@@ -787,11 +834,11 @@ const DAYS = [
   ]},
 { d:5, y:2026, mo:10, dd:1, tz:TZ.ZRH, emoji:'🇨🇭', city:'尼斯 → 日内瓦 → 伯尔尼', tzLabel:'瑞士时间', th:'swiss',
   title:'瑞士交接（面基拿神票）',
-  traffic:'尼斯 <b>Tram L2</b> 去机场；瑞士落地即上车：日内瓦机场火车站直接上 <b>IR15 / IC5 直达列车</b>（2 等座）到 Bern HB，全程出示 <b>Coop 实体日票</b>（拿票后当场用笔填日期）',
+  traffic:'尼斯 <b>Tram L2</b> 去机场；瑞士落地即上车：日内瓦机场火车站直接上 <b>IR15 / IC5 直达列车</b>（2 等座）到 Bern HB，全程出示 <b>Coop 实体日票</b>（17:30 先在到达口凑齐 9 张并当场填日期）',
   items:[
     it('上午','09:00','13:30','留白','睡到自然醒，酒店周边海滩彻底放空。', true),
     it('13:30','13:30','16:35','转场','坐 Tram L2 去机场。<b>15:35 尼斯飞日内瓦 (GVA)，16:35 落地。</b>'),
-    it('17:30','17:30',null,'核心交接','日内瓦机场火车站大厅，找朋友拿 <b>9 张 Coop 实体日票</b>，当场用笔填好 3 张今天的日期（01.10.26）。'),
+    it('17:30','17:30',null,'核心交接','<b>16:35 落地后直奔到达口 (ARRIVALS)</b>，找 3 个人拿 Coop 实体日票：<b>3 张 / 1 张 / 4 张</b>，加上手上的 1 张凑齐 <b>9 张</b>。当场用笔填好日期（01.10.26 / 02.10.26 / 03.10.26），再进同一栋楼的火车站大厅。'),
     it('18:00','18:00','20:00','赴伯尔尼','直接上 <b>IR15 / IC5 直达列车</b>，坐 2 等座，遇查票出示 Coop 票。20:00 抵 Bern HB，步行 5 分钟入住 Prize by Radisson。')
   ]},
 { d:6, y:2026, mo:10, dd:2, tz:TZ.ZRH, emoji:'⛰️', city:'卢塞恩 · 石丹峰 · 瑞吉山', tzLabel:'瑞士时间', th:'lucerne',
@@ -893,7 +940,7 @@ const MOVE = {
     '🚆 TER 回 Nice-Ville → 🚋 转 Tram L1 到 Opéra 站 + 🚶 5 分钟到海边'],
   5: ['🚶 酒店周边步行放空',
     '🚋 Tram L2 去尼斯机场 + ✈️ 尼斯 NCE → 日内瓦 GVA，约 1 小时',
-    '🚶 日内瓦机场内步行至火车站大厅（同一栋建筑）',
+    '🚶 到达口 (ARRIVALS) 接 3/1/4 三挂票 → 同一栋楼步行至火车站大厅，凑齐 9 张并填日期',
     '🚆 IR15 / IC5 直达列车（2 等座），约 2 小时到 Bern HB'],
   6: ['🚆 伯尔尼 → 卢塞恩 → 地下通道 12/13 站台 → Stans 站 + 🚶 5 分钟 + 🚠 石丹峰双层缆车',
     '🚶 火车站负一层 Coop 超市采购',
@@ -1002,7 +1049,8 @@ function themeVars(t){
     '--deep-a':t.deep, '--deep-b':t.deepb, '--deep-c':mixHex(t.deep,t.deepb,.5),
     '--deep-ink':mixHex(t.deep,W6,.88), '--deep-soft':mixHex(acc,W6,.55), '--deep-dot':mixHex(acc,W6,.3),
     '--warn':'#b06a00', '--urg':'#c0392b',
-    '--red':'#c0392b', '--red-soft':'rgba(192,57,43,.06)', '--red-line':'rgba(192,57,43,.26)', '--red-tx':'#9e2b1f'
+    '--red':'#c0392b', '--red-soft':'rgba(192,57,43,.06)', '--red-line':'rgba(192,57,43,.26)', '--red-tx':'#9e2b1f',
+    '--ok':'#1f8a4c', '--ok-soft':'rgba(31,138,76,.07)', '--ok-line':'rgba(31,138,76,.3)', '--ok-tx':'#186b3b'
   };
   if(!DARK) return base;
   /* 夜览：只反转「中性面」那一层，城市强调色保持一致 */
@@ -1019,7 +1067,8 @@ function themeVars(t){
     '--now-a':mixHex(surf,t.deepb,.34), '--now-b':mixHex(surf,t.deepb,.55),
     '--nowhd-a':mixHex(surf,t.deepb,.38), '--nowhd-b':mixHex(surf,'#000000',.2),
     '--warn':'#f0b429', '--urg':'#ff6b5e',
-    '--red':'#ff6b5e', '--red-soft':'rgba(255,107,94,.11)', '--red-line':'rgba(255,107,94,.34)', '--red-tx':'#ffb3a8'
+    '--red':'#ff6b5e', '--red-soft':'rgba(255,107,94,.11)', '--red-line':'rgba(255,107,94,.34)', '--red-tx':'#ffb3a8',
+    '--ok':'#4ecb7f', '--ok-soft':'rgba(78,203,127,.12)', '--ok-line':'rgba(78,203,127,.4)', '--ok-tx':'#8ee6b0'
   });
 }
 
@@ -1721,8 +1770,8 @@ $('#btnToday').addEventListener('click', ()=>{
 const CHECKS = [
   ['护照 + 申根签', '全程随身，马尼拉免签入境也要看'],
   ['下一程登机牌', '马尼拉免签入境菲律宾的必要凭证'],
-  ['9 张 Coop 日票', '10/1 17:30 日内瓦机场火车站大厅与朋友交接'],
-  ['Coop 票填日期', '01.10.26 / 02.10.26 / 03.10.26，当场用笔填好'],
+  ['9 张 Coop 日票', '手上 1 张 + 到机场找 3 个人拿 3 / 1 / 4 张，10/1 17:30 日内瓦机场到达口 (ARRIVALS)'],
+  ['Coop 票填日期', '01.10.26 / 02.10.26 / 03.10.26，拿到当场用笔填好再上车'],
   ['Navigo 虚拟卡', '10/4 在 TGV 座位上用 Apple Pay 开通，买 Carnet 10 次票'],
   ['TGTG 盲袋 App', '注册好，瑞士晚间抢盲袋用'],
   ['退税单据', '10/6 卢森堡机场 (LUX) 起飞前办理'],
@@ -1747,6 +1796,51 @@ CHECKS.forEach(([t,d], i)=>{
   });
   ckBox.appendChild(el);
 });
+
+/* ---- Coop 日票交接清单（本机保存，不上云） ---- */
+const COOP = [
+  { k:'已在手上', n:1, who:false },
+  { k:'第 1 位', n:3, who:true },
+  { k:'第 2 位', n:1, who:true },
+  { k:'第 3 位', n:4, who:true }
+];
+const COOP_KEY = 'eu2026-coop-v1';
+let coopSt = { got:[1,0,0,0], names:['','','',''] };
+try{
+  const raw = localStorage.getItem(COOP_KEY);
+  if(raw){ const p = JSON.parse(raw); if(p && p.got && p.got.length === COOP.length) coopSt = p; }
+}catch(e){}
+function coopSave(){ try{ localStorage.setItem(COOP_KEY, JSON.stringify(coopSt)); }catch(e){} }
+function coopRender(){
+  const box = document.getElementById('coopList'); if(!box) return;
+  box.innerHTML = '';
+  COOP.forEach((c, i)=>{
+    const row = document.createElement('div');
+    row.className = 'coop-row' + (coopSt.got[i] ? ' on' : '');
+    row.innerHTML = `<label class="coop-lb"><input type="checkbox" data-coop-i="${i}"${coopSt.got[i] ? ' checked' : ''}><span class="coop-tick"></span><span class="coop-k">${c.k}</span><span class="coop-n">${c.n} 张</span></label>`
+      + (c.who ? `<input class="coop-name" type="text" data-coop-n="${i}" placeholder="是谁 / 怎么认？" value="${escAttr(coopSt.names[i] || '')}">` : '<span class="coop-ok">已在手 ✓</span>');
+    box.appendChild(row);
+  });
+  const got = COOP.reduce((a, c, i)=> a + (coopSt.got[i] ? c.n : 0), 0);
+  const num = document.getElementById('coopNum'); if(num) num.textContent = got;
+  const card = document.getElementById('coopCard'); if(card) card.classList.toggle('done', got >= 9);
+}
+coopRender();
+(function(){
+  const box = document.getElementById('coopList'); if(!box) return;
+  box.addEventListener('change', e=>{
+    const i = e.target && e.target.getAttribute && e.target.getAttribute('data-coop-i');
+    if(i === null || i === undefined) return;
+    coopSt.got[Number(i)] = e.target.checked ? 1 : 0;
+    coopSave(); coopRender();
+  });
+  box.addEventListener('input', e=>{
+    const i = e.target && e.target.getAttribute && e.target.getAttribute('data-coop-n');
+    if(i === null || i === undefined) return;
+    coopSt.names[Number(i)] = e.target.value;
+    coopSave();
+  });
+})();
 
 /* =========================================================
    3.5 夜览深色模式（默认跟随系统，可手动覆盖）
@@ -1954,7 +2048,7 @@ document.addEventListener('input', e=>{
 /* =========================================================
    3.9 离线就绪指示
    ========================================================= */
-const APP_V = 'v13';
+const APP_V = 'v14';
 (function offStat(){
   const el = document.getElementById('offStat');
   if(!el) return;
