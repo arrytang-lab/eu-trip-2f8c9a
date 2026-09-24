@@ -393,7 +393,7 @@ body{
       </div>
       <div class="hd-right">
         <span class="badge theme" id="themeChip"><span class="tdot"></span><span id="themeTx">城市配色</span></span>
-        <a class="badge tgtg" id="tgtgChip" href="https://www.toogoodtogo.com/" data-tgtg="1" title="打开 Too Good To Go"><span class="tgdot">🥡</span><span id="tgtgTx">TGTG 盲袋</span></a>
+        <a class="badge tgtg" id="tgtgChip" href="https://www.toogoodtogo.com/" data-tgtg="1" target="_blank" rel="noopener" title="打开 Too Good To Go"><span class="tgdot">🥡</span><span id="tgtgTx">TGTG 盲袋</span></a>
         <div id="statusBadge" class="badge"><span class="dot"></span><span id="statusText">加载中…</span></div>
       </div>
     </div>
@@ -443,7 +443,7 @@ body{
   <!-- TOOLS -->
   <div class="tools">
     <div class="title">🗓️ 全行程时间轴</div>
-    <span class="hint">📍 行程里的<b>地点名</b>都能点一下，直接跳地图 App</span>
+    <span class="hint">📍 行程里的<b>地点名</b>都能点，新标签页打开地图</span>
     <div class="mapseg" id="mapSeg">
       <button type="button" data-map="apple">苹果地图</button>
       <button type="button" data-map="google">Google 地图</button>
@@ -896,7 +896,7 @@ function pinify(html, pins){
   const q = {};
   arr.forEach(p=>{ q[p[0]] = p[1]; });
   const re = new RegExp(arr.map(p=> escRe(p[0])).join('|'), 'g');
-  return html.replace(re, m => `<a class="pin" href="${escAttr(mapUrl(q[m]))}" data-q="${escAttr(q[m])}" title="在地图中打开：${escAttr(q[m])}">${m}</a>`);
+  return html.replace(re, m => `<a class="pin" href="${escAttr(mapUrl(q[m]))}" data-q="${escAttr(q[m])}" target="_blank" rel="noopener" title="在新标签页打开地图：${escAttr(q[m])}">${m}</a>`);
 }
 
 /* --- TGTG：盲袋黄金时段（当地 18:00–22:00）自动亮起 --- */
@@ -938,13 +938,14 @@ function renderTgtg(now, today, phase){
       const a = document.createElement('a');
       a.className = 'tgtg-btn' + (st === 'now' ? ' now' : '');
       a.href = TGTG.web; a.setAttribute('data-tgtg','1');
+      a.target = '_blank'; a.rel = 'noopener';
       a.innerHTML = btnTxt;
       host.appendChild(a);
     }
   }
   return st;
 }
-/* 点 TGTG：优先尝试唤起 App，失败/未安装则落到官方网页版 */
+/* 点 TGTG：优先尝试唤起 App，失败/未安装则在**新标签页**打开官方网页版（不顶掉看板） */
 document.addEventListener('click', e=>{
   const a = e.target.closest('[data-tgtg]');
   if(!a) return;
@@ -955,8 +956,12 @@ document.addEventListener('click', e=>{
     document.body.appendChild(f);
     setTimeout(()=>{ try{ document.body.removeChild(f); }catch(_){} }, 1400);
   }catch(_){}
-  const t0 = Date.now();
-  setTimeout(()=>{ if(!document.hidden && Date.now() - t0 < 4000) location.href = TGTG.web; }, 1000);
+  setTimeout(()=>{
+    if(document.hidden || document.visibilityState === 'hidden') return;   // App 已接管，不再多开标签
+    let w = null;
+    try{ w = window.open(TGTG.web, '_blank'); }catch(_){}
+    if(w){ try{ w.opener = null; }catch(_){} } else { location.href = TGTG.web; }   // 新标签被拦时保底
+  }, 800);
 });
 
 DAYS.forEach(day=>{
@@ -1009,7 +1014,7 @@ DAYS.forEach(day=>{
       <div class="cx">
         <span class="tag">${x.tag}</span>
         <div class="tx">${pinify(x.text, PINS[day.d])}</div>
-        ${hasTgtg ? `<a class="tgtg-btn" href="${TGTG.web}" data-tgtg="1"><span class="tgp"></span>打开 TGTG App 抢盲袋</a>` : ''}
+        ${hasTgtg ? `<a class="tgtg-btn" href="${TGTG.web}" data-tgtg="1" target="_blank" rel="noopener"><span class="tgp"></span>打开 TGTG App 抢盲袋</a>` : ''}
         <div class="prog" style="display:none"><i style="width:0%"></i></div>
         <div class="leftnote" style="display:none"></div>
       </div>`;
