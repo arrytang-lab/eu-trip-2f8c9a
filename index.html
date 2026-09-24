@@ -7,12 +7,12 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="欧游看板">
+<meta name="apple-mobile-web-app-title" content="踏平法纳瑞">
 <meta name="robots" content="noindex,nofollow">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='88'>🌍</text></svg>">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
-<title>2026 国庆欧游 · 实时看板</title>
+<title>踏平法纳瑞 · 2026 国庆欧游</title>
 <style>
 :root{
   /* —— 主题色（由 JS 按「当前所在城市」注入；这里是默认的出发色：薄荷天空）—— */
@@ -476,7 +476,7 @@ body{
       <div class="brand">
         <span class="globe">🌍</span>
         <div>
-          <h1>2026 国庆欧游 · 实时看板</h1>
+          <h1>踏平法纳瑞</h1>
           <div class="sub">法 · 摩纳哥 · 瑞 · 卢 ｜ 12 天 ｜ 2026.09.26 – 10.07</div>
         </div>
       </div>
@@ -721,12 +721,17 @@ function it(t, s, e, tag, text, soft){
 }
 const DAYS = [
 { d:0, y:2026, mo:9, dd:26, tz:TZ.MNL, emoji:'✈️', city:'马尼拉 · 菲律宾（过境）', tzLabel:'马尼拉时间', th:'manila',
-  title:'长转机与出境 SPA',
+  title:'马尼拉一日：王城区 Citywalk 与马尼拉湾落日',
   items:[
     it('08:05','08:05','10:35','出海','广州 (CAN) 飞 马尼拉 (MNL) T3 航站楼。'),
-    it('11:00','11:00','12:00','通关','凭护照 + 申根签 + 下一程登机牌，走海关通道免签入境菲律宾。行李若未直挂，在 T3 一楼 "Baggage Left" 寄存。'),
-    it('12:00','12:00','18:30','放松','用 Grab 打车去 SM Mall of Asia (MOA)，车程约 20–30 分钟。看海景、吃午饭、找正规店做东南亚 SPA。<b>18:30 前务必打车回机场。</b>'),
-    it('21:25','21:25',null,'跨洲','马尼拉 (MNL) 起飞，飞往伊斯坦布尔。')
+    it('11:00','11:00','11:45','通关与免费寄存','走海关通道，凭护照 + 申根签 + 登机牌<b>免签入境</b>。出机场走 <b>Runway Manila 天桥</b>到对面的 <b>Newport World Resorts（新港世界度假村）</b>，凭护照登记<b>免费寄存行李</b>，彻底甩手。'),
+    it('12:00','12:00','13:00','杀入市区','在 Newport 门口打开 Grab，定位 <b>San Agustin Church（圣奥古斯汀教堂）</b>。车费约 <b>300–350 比索</b>，车程约 <b>50 分钟</b>。'),
+    it('13:00','13:00','15:00','王城区 Citywalk','在<b>西班牙王城区 (Intramuros)</b> 漫步。打卡两大神迹：<b>马尼拉大教堂</b>、<b>圣奥古斯汀教堂</b>（亚洲最古老的石造教堂）。'),
+    it('15:00','15:00','16:00','🍲 必吃高亮','在王城区周边（或打车去附近商场如 <b>SM City Manila</b>），找到 <b>Manam 餐厅</b>。大口享用招牌<b>铁板猪肉碎 (Sisig)</b> 和 <b>西瓜酸汤 (Sinigang)</b>！'),
+    it('16:00','16:00','16:30','公园散步','步行前往附近的<b>黎刹公园 (Rizal Park)</b> 溜达半小时。'),
+    it('17:00','17:00','18:00','马尼拉湾落日','叫个摩的（<b>JoyRide</b> 或 <b>Angkas</b> App，或路边讲价），直奔 <b>马尼拉湾 (Manila Bay)</b>，看世界著名的<b>咸蛋黄日落</b>。'),
+    it('18:15','18:15','19:00','极限防堵撤退','此时马尼拉进入地狱级堵车模式：果断打<b>摩的 (Motorcycle Taxi)</b> 穿梭车流，直奔 Newport 取行李，再走天桥回 T3。'),
+    it('21:25','21:25',null,'跨洲','马尼拉 (MNL) 登机起飞，前往欧洲！')
   ]},
 { d:1, y:2026, mo:9, dd:27, tz:TZ.PAR, emoji:'🍷', city:'波尔多 · 法国', tzLabel:'法国时间', th:'bordeaux',
   title:'落地波尔多，无缝衔接酒庄与 Vintage',
@@ -1010,8 +1015,17 @@ document.addEventListener('click', e=>{
 
 /* --- 每日可点地点：[行程里的文字, 地图检索词] --- */
 const PINS = {
-  0:[ ['SM Mall of Asia','SM Mall of Asia, Pasay, Metro Manila'],
-      ['马尼拉 (MNL) T3','NAIA Terminal 3, Manila'] ],
+  0:[ ['马尼拉 (MNL) T3','NAIA Terminal 3, Manila'],
+      ['Runway Manila 天桥','Runway Manila, Pasay, Philippines'],
+      ['Newport World Resorts','Newport World Resorts, Pasay, Metro Manila'],
+      ['San Agustin Church','San Agustin Church, Intramuros, Manila'],
+      ['马尼拉大教堂','Manila Cathedral, Intramuros, Manila'],
+      ['圣奥古斯汀教堂','San Agustin Church, Intramuros, Manila'],
+      ['王城区 (Intramuros)','Intramuros, Manila'],
+      ['Manam 餐厅','Manam Restaurant, Manila'],
+      ['SM City Manila','SM City Manila'],
+      ['黎刹公园 (Rizal Park)','Rizal Park, Manila'],
+      ['马尼拉湾 (Manila Bay)','Manila Bay, Philippines'] ],
   1:[ ['伊斯坦布尔 (IST)','Istanbul Airport'],
       ['Château Pape Clément','Château Pape Clément, Pessac, France'],
       ['Pessac Centre 站','Pessac Centre tram stop, Bordeaux'],
@@ -1614,7 +1628,8 @@ const CHECKS = [
   ['波尔多 24h 票', 'Pessac Centre 站机器购买，约 5.3 欧'],
   ['红酒托运', '波尔多买一瓶心仪红酒放行李箱；9/28 晚尼斯鹅卵石沙滩配酒（顺手拿两条浴巾）'],
   ['眼罩 + 耳塞 + 颈枕', '两段夜航的关键装备，比换宽座位更值'],
-  ['压缩袜', '去程 10h40m、返程约 16.5h 长航，防腿肿']
+  ['压缩袜', '去程 10h40m、返程约 16.5h 长航，防腿肿'],
+  ['菲律宾比索现金', '马尼拉 Grab / 摩的 / Manam 餐厅多数收现，提前换 2000–3000 比索']
 ];
 const CK_KEY = 'eu2026-checklist-v1';
 let ckState = {};
@@ -1768,9 +1783,9 @@ document.addEventListener('click', e=>{
    3.7 转机 / 长途作战卡
    ========================================================= */
 const TRANSIT = [
-  { d:0, ic:'🛫', t:'长转机 · 马尼拉（免签入境）',
-    body:'08:05 广州 CAN 起飞 → 10:35 落地 MNL T3，当天 21:25 起飞继续。凭护照 + 申根签 + 下一程登机牌走免签通道；行李若不直挂，先存 T3 一楼寄存处再出去玩。',
-    risk:'⚠️ 18:30 前务必离开市区回机场；SM Mall of Asia 往返各留 40 分钟堵车余量。' },
+  { d:0, ic:'🛫', t:'长转机 · 马尼拉（免签入境 + 王城区一日）',
+    body:'08:05 广州 CAN 起飞 → 10:35 落地 MNL T3，当天 21:25 起飞继续。免签入境后走 <b>Runway Manila 天桥</b>到 Newport World Resorts <b>免费寄存行李</b>（凭护照），再 Grab 杀入王城区 Citywalk + 马尼拉湾看日落。',
+    risk:'⚠️ 18:15 起马尼拉是地狱级堵车，务必用<b>摩的（JoyRide / Angkas）</b>穿车流回 Newport 取行李再走天桥回 T3；全程给回程留 90 分钟缓冲。' },
   { d:1, ic:'🌍', t:'跨洲衔接 · 伊斯坦布尔转机 → 波尔多',
     body:'经伊斯坦布尔 (IST) 转机，10:10 落地 BOD；取行李后叫 Uber 直奔酒庄，11:00 品酒。',
     risk:'⚠️ 红眼 + 时差 −6h 的第一站；落地到酒庄只留约 50 分钟，别在行李转盘磨蹭。' },
@@ -1838,7 +1853,7 @@ document.addEventListener('input', e=>{
 /* =========================================================
    3.9 离线就绪指示
    ========================================================= */
-const APP_V = 'v10';
+const APP_V = 'v11';
 (function offStat(){
   const el = document.getElementById('offStat');
   if(!el) return;
