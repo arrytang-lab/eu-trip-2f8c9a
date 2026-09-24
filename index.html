@@ -351,9 +351,7 @@ body{
   html .coop-big b{font-size:26px}
   html .coop-meta>div{font-size:11.9px}
   html .coop-top{gap:12px;padding:11px 12px}
-  html .ht-fields{grid-template-columns:1fr}
-  html .ci-in,html .ht-in{padding:8px 10px}
-  html .ht-btn{min-height:40px}
+  html .ci-in{padding:8px 10px}
   /* 触屏不依赖 hover */
   .day-hd:hover,.item:hover{background:transparent}
   .chk:hover{border-color:var(--line);background:var(--card)}
@@ -509,26 +507,17 @@ body{
 .ci-in{width:100%;margin-top:8px;font-size:12.3px;font-family:inherit;color:var(--ink);background:var(--card2);border:1px solid var(--line);border-radius:9px;padding:7px 10px;outline:none}
 .ci-in:focus{border-color:var(--mint-line);box-shadow:0 0 0 3px var(--mint-soft)}
 .ci-in::placeholder{color:var(--muted)}
-.ht-list{display:grid;gap:10px;margin-top:11px}
-.ht-row{padding:11px 12px;background:var(--card);border:1px solid var(--line);border-radius:13px}
-.ht-hd{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.ht-list{display:grid;gap:8px;margin-top:11px}
+.ht-row{padding:10px 12px;background:var(--card);border:1px solid var(--line);border-radius:13px}
+.ht-hd{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
 .ht-city{font-size:9.9px;font-weight:900;letter-spacing:.5px;color:#fff;background:var(--mint);border-radius:999px;padding:2px 9px;white-space:nowrap}
-.ht-name{font-size:13.2px;font-weight:900;color:var(--ink);text-decoration:none;border-bottom:1.5px dotted var(--mint-line);cursor:pointer}
+.ht-name{font-size:13.4px;font-weight:900;color:var(--ink);text-decoration:none;border-bottom:1.5px dotted var(--mint-line);cursor:pointer}
 .ht-name:hover{color:var(--mint-d);border-bottom-color:var(--mint)}
 .ht-dates{font-size:11.4px;font-weight:700;color:var(--muted)}
-.ht-fields{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}
-.ht-in{font-size:12.2px;font-family:inherit;color:var(--ink);background:var(--card2);border:1px solid var(--line);border-radius:9px;padding:7px 10px;outline:none;min-width:0}
-.ht-in.wide{grid-column:1/-1}
-.ht-in:focus{border-color:var(--mint-line);box-shadow:0 0 0 3px var(--mint-soft)}
-.ht-in::placeholder{color:var(--muted)}
-.ht-btns{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
-.ht-btn{font-size:11.5px;font-weight:800;font-family:inherit;color:var(--mint-d);background:var(--card2);border:1px solid var(--mint-line);border-radius:9px;padding:6px 11px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px}
-.ht-btn:hover{background:var(--mint-soft)}
-.ht-btn.got{color:var(--ok-tx);border-color:var(--ok-line);background:var(--ok-soft)}
 @media print{
   html[data-dark="1"]{--ink:#1b2430;--ink2:#3c4a58;--muted:#7c8b96;--line:#e3eaee;--card:#ffffff;--card2:#ffffff;--soft:#f5f8fa;--track:#eef2f5;--tint:#f5f8fa;--bg-a:#fff;--bg-b:#fff;--bg-c:#fff;--hero-a:#fff;--hero-b:#fff;--hero-c:#fff;--now-a:#fff;--now-b:#fff;--nowhd-a:#fff;--nowhd-b:#fff;--red:#c0392b;--red-soft:rgba(192,57,43,.06);--red-line:rgba(192,57,43,.26);--red-tx:#9e2b1f;--ok:#1f8a4c;--ok-soft:rgba(31,138,76,.07);--ok-line:rgba(31,138,76,.3);--ok-tx:#186b3b}
   .copybtn,.darkbtn,#btnDark{display:none!important}
-  .ht-in,.ci-in,.coop-name,.tr-in,#emgCard input{border:none!important;border-bottom:1px solid #b9c4cc!important;border-radius:0!important;background:transparent!important}
+  .ci-in,.coop-name,.tr-in,#emgCard input{border:none!important;border-bottom:1px solid #b9c4cc!important;border-radius:0!important;background:transparent!important}
   body{background:#fff}
   .orb,.veil,.tools,.now,.mbar,.ioshint{display:none}
   .day-bd{display:block!important}
@@ -648,9 +637,8 @@ body{
   <!-- 酒店卡 -->
   <section class="panel" id="hotelCard">
     <h3>🏨 酒店卡（4 家）</h3>
-    <div class="desc">地址暂留空（<b>我不会编门牌号</b>）：填好后就点「📋 复制」发给司机 / 酒店前台；没填时复制的是地图检索词。<b>点酒店名直接跳地图</b>。</div>
+    <div class="desc">4 晚住宿。<b>点酒店名直接跳地图</b>（苹果 / 谷歌按你在上方选的那档）。</div>
     <div class="ht-list" id="htList"></div>
-    <div class="cap">地址 / 电话 / 预订号只存在本机，不上传；换设备或清缓存会丢。</div>
   </section>
 
   <!-- 转机作战卡 -->
@@ -2009,28 +1997,17 @@ const HOTELS = [
   { id:'h1', city:'波尔多', name:'Radisson Blu Hotel Bordeaux', dates:'9/27 入住 → 9/28 退房', q:'Radisson Blu Hotel Bordeaux' },
   { id:'h2', city:'尼斯',   name:'Radisson Blu Hotel Nice',     dates:'9/28 入住 → 10/1 退房', q:'Radisson Blu Hotel Nice' },
   { id:'h3', city:'伯尔尼', name:'Prize by Radisson Bern',      dates:'10/1 入住 → 10/4 退房', q:'Prize by Radisson Bern' },
-  { id:'h4', city:'巴黎',   name:'（路书未写名字，你填）',        dates:'10/4 入住 → 10/6 退房 · Cadet 站出站南行 2 分钟', q:'Cadet station, Paris 9e' }
+  { id:'h4', city:'巴黎',   name:'巴黎住宿（Cadet 站附近，路书未写名）',        dates:'10/4 入住 → 10/6 退房', q:'Cadet station, Paris 9e' }
 ];
-const HT_KEY = 'eu2026-hotel-v1';
-let htSaved = {};
-try{ htSaved = JSON.parse(localStorage.getItem(HT_KEY) || '{}'); }catch(e){ htSaved = {}; }
-function htGet(i, f){ return (htSaved[HOTELS[i].id] || {})[f] || ''; }
 function htRender(){
   const box = document.getElementById('htList'); if(!box) return;
   box.innerHTML = '';
-  HOTELS.forEach((h, i)=>{
+  HOTELS.forEach(h=>{
     const row = document.createElement('div');
     row.className = 'ht-row';
-    row.innerHTML = `<div class="ht-hd"><span class="ht-city">${h.city}</span><a class="ht-name" data-map="${h.id}" data-ht-title="${i}" target="_blank" rel="noopener" href="#">${htGet(i,'name') || h.name}</a><span class="ht-dates">${h.dates}</span></div>`
-      + `<div class="ht-fields">`
-      +   `<input class="ht-in wide" type="text" data-ht="${h.id}" data-ht-f="addr" placeholder="酒店地址（本地语言，抄预订确认单上的）" value="${escAttr(htGet(i,'addr'))}">`
-      +   `<input class="ht-in" type="text" inputmode="tel" data-ht="${h.id}" data-ht-f="tel" placeholder="酒店电话" value="${escAttr(htGet(i,'tel'))}">`
-      +   `<input class="ht-in" type="text" data-ht="${h.id}" data-ht-f="ref" placeholder="预订号 / 入住时间" value="${escAttr(htGet(i,'ref'))}">`
-      +   `<input class="ht-in wide" type="text" data-ht="${h.id}" data-ht-f="name" placeholder="酒店名（本地写法，可留空）" value="${escAttr(htGet(i,'name'))}">`
-      + `</div>`
-      + `<div class="ht-btns">`
-      +   `<button class="ht-btn" type="button" data-htcopy="${i}">📋 复制地址</button>`
-      + `</div>`;
+    row.innerHTML = `<div class="ht-hd"><span class="ht-city">${h.city}</span>`
+      + `<a class="ht-name" data-map="${h.id}" target="_blank" rel="noopener" href="#">${h.name}</a>`
+      + `<span class="ht-dates">${h.dates}</span></div>`;
     box.appendChild(row);
   });
   box.querySelectorAll('[data-map]').forEach(a=>{
@@ -2039,31 +2016,7 @@ function htRender(){
   });
 }
 htRender();
-function htAddrOf(i){
-  const s = htSaved[HOTELS[i].id] || {};
-  const n = (s.name || '').trim(), a = (s.addr || '').trim();
-  return a ? (n ? n + '，' + a : a) : HOTELS[i].q;
-}
-(function(){
-  const box = document.getElementById('htList'); if(!box) return;
-  box.addEventListener('input', e=>{
-    const el = e.target, id = el.getAttribute && el.getAttribute('data-ht');
-    if(!id) return;
-    const f = el.getAttribute('data-ht-f');
-    if(!htSaved[id]) htSaved[id] = {};
-    htSaved[id][f] = el.value;
-    try{ localStorage.setItem(HT_KEY, JSON.stringify(htSaved)); }catch(_){}
-    if(f === 'name'){
-      const i = HOTELS.findIndex(h=>h.id === id);
-      const t = document.querySelector('[data-ht-title="' + i + '"]');
-      if(t) t.textContent = el.value || HOTELS[i].name;
-    }
-  });
-  box.addEventListener('click', e=>{
-    const cp = e.target.closest('[data-htcopy]');
-    if(cp){ copyText(htAddrOf(Number(cp.getAttribute('data-htcopy'))), cp); return; }
-  });
-})();
+
 
 /* =========================================================
    3.5 夜览深色模式（默认跟随系统，可手动覆盖）
@@ -2271,7 +2224,7 @@ document.addEventListener('input', e=>{
 /* =========================================================
    3.9 离线就绪指示
    ========================================================= */
-const APP_V = 'v17';
+const APP_V = 'v18';
 (function offStat(){
   const el = document.getElementById('offStat');
   if(!el) return;
