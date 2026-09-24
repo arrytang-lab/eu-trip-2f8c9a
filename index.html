@@ -334,6 +334,14 @@ body{
   html .emg-grid{grid-template-columns:1fr}
   html .day-hd .copybtn{margin-left:0;align-self:center;font-size:11.4px;padding:5px 11px}
   html .emg-local input{min-width:calc(50% - 10px);flex:1 1 auto}
+  html .jet-chips{grid-template-columns:1fr;gap:8px;margin:10px 0 12px}
+  html .jet-chip{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;padding:9px 12px}
+  html .jet-chip .v{font-size:17px;margin:0}
+  html .jet-chip .n{flex:1 1 100%}
+  html .jr-grid{grid-template-columns:1fr}
+  html .jb-time{flex:0 0 76px;font-size:11.6px}
+  html .jb-row{gap:8px}
+  html .jb-do{font-size:12.4px}
   /* 触屏不依赖 hover */
   .day-hd:hover,.item:hover{background:transparent}
   .chk:hover{border-color:var(--line);background:var(--card)}
@@ -407,6 +415,34 @@ body{
 .offstat{display:block;margin-top:7px}
 .offstat.ok{color:var(--mint-d);font-weight:700}
 .darkbtn.on{background:linear-gradient(135deg,var(--mint),var(--mint2));color:#fff;border-color:transparent}
+
+/* ===== 时差作战卡 ===== */
+.jet-chips{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0 15px}
+.jet-chip{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:11px 13px}
+.jet-chip .k{font-size:11.2px;color:var(--muted);font-weight:800;letter-spacing:.4px}
+.jet-chip .v{font-size:19px;font-weight:900;margin:3px 0 2px;font-variant-numeric:tabular-nums}
+.jet-chip .n{font-size:11.2px;color:var(--muted);line-height:1.5}
+.jet-chip.out .v{color:var(--mint-d)}
+.jet-chip.mid .v{color:var(--muted)}
+.jet-chip.back .v{color:var(--urg)}
+.jet-block{border:1px solid var(--line);border-radius:16px;padding:13px 15px 6px;background:var(--card2);margin-bottom:12px}
+.jet-block.hot{border-color:var(--mint-d);box-shadow:0 14px 32px -22px rgba(var(--acc-rgb),.95)}
+.jet-block.hot .jb-hd:after{content:"本次这一条";font-size:10.4px;font-weight:800;color:#fff;background:var(--mint-d);border-radius:999px;padding:2px 9px;white-space:nowrap}
+.jb-hd{display:flex;gap:11px;align-items:flex-start;padding-bottom:10px;border-bottom:1px dashed var(--line)}
+.jb-ic{font-size:19px;line-height:1.25}
+.jb-t{font-weight:900;font-size:14.6px}
+.jb-s{font-size:12.2px;color:var(--muted);margin-top:3px;line-height:1.55}
+.jb-rows{display:flex;flex-direction:column}
+.jb-row{display:flex;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line)}
+.jb-row:last-child{border-bottom:none}
+.jb-time{flex:0 0 96px;font-size:12.4px;font-weight:900;font-variant-numeric:tabular-nums}
+.jb-time em{display:block;font-style:normal;font-size:10.6px;color:var(--muted);font-weight:700;margin-top:2px}
+.jb-do{font-size:12.8px;line-height:1.62;color:var(--ink2)}
+.jr-t{font-weight:900;font-size:13.4px;margin:14px 0 8px}
+.jr-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.jr{display:flex;gap:8px;background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:9px 11px;font-size:12.4px;line-height:1.6;color:var(--ink2)}
+.jr span{flex:0 0 auto}
+.jr b{color:var(--ink)}
 .mbar .mb-tgtg{flex:0 0 auto;margin-left:8px;font-size:11.4px;font-weight:800;color:#0b3d24;background:#7ff0b6;padding:6px 10px;border-radius:999px;display:none}
 .mbar .mb-tgtg.on{display:block}
 
@@ -516,6 +552,50 @@ body{
     <div class="tr-list" id="trList"></div>
   </section>
 
+  <!-- 时差作战卡 -->
+  <section class="panel" id="jetCard">
+    <h3>🕐 时差作战卡（含机上怎么睡）</h3>
+    <div class="desc">全程只跳两次：去程 <b>−6 小时</b>、返程 <b>+6 小时</b>；法国 → 摩纳哥 → 瑞士 → 卢森堡<b>全部同一时区</b>，中段九天完全不用调</div>
+
+    <div class="jet-chips">
+      <div class="jet-chip out"><div class="k">去程 · 往西飞</div><div class="v">−6 小时</div><div class="n">9/26–27 · 白天被拉长，好调，2–3 天顺过来</div></div>
+      <div class="jet-chip mid"><div class="k">中段 · 零时差</div><div class="v">0</div><div class="n">10/1–10/6 · 法、摩、瑞、卢同一时区</div></div>
+      <div class="jet-chip back"><div class="k">返程 · 往东飞</div><div class="v">+6 小时</div><div class="n">10/6–7 · 白天被压缩，最难，4–5 天</div></div>
+    </div>
+
+    <div class="jet-block" id="jetOut">
+      <div class="jb-hd"><span class="jb-ic">🌙</span><div><div class="jb-t">去程这一个夜：马尼拉 21:25 起飞 → 波尔多 10:10 落地</div><div class="jb-s">关键换算：马尼拉 21:25 起飞 = <b>波尔多下午 15:25</b>（同伊斯坦布尔 18:25）——所以别一上飞机就睡，那正是目的地的下午</div></div></div>
+      <div class="jb-rows">
+        <div class="jb-row"><span class="jb-time">波尔多 15:25<em>起飞</em></span><span class="jb-do">当作下午来过：吃正餐、看片、喝水，<b>先撑 5 个小时</b>别睡。飞机上不吃安眠药、不开酒</span></div>
+        <div class="jb-row"><span class="jb-time">波尔多 21:00<em>起飞后 ≈5.5h</em></span><span class="jb-do"><b>戴眼罩 + 塞耳塞，开始长睡</b>；目标接下来 5–6 小时连着睡，别断成碎觉</span></div>
+        <div class="jb-row"><span class="jb-time">波尔多 04:05<em>IST 转机 1h50m</em></span><span class="jb-do">起身走动、上洗手间、洗把脸补水；<b>别睡死</b>，留神登机口变更与安检</span></div>
+        <div class="jb-row"><span class="jb-time">波尔多 06:15<em>第二段 3h</em></span><span class="jb-do">继续睡到落地前 30 分钟，然后<b>拉开遮光板让眼睛见光</b> —— 这是校时最有效的一步</span></div>
+        <div class="jb-row"><span class="jb-time">波尔多 10:10<em>落地</em></span><span class="jb-do">出航站楼直接晒 15–30 分钟太阳 → 按当地吃午饭 → <b>当天不补觉</b>（最多 15:00 前小睡 20 分钟）→ 晚上照旧晚餐 + 沙滩听海，<b>23:30 前睡</b></span></div>
+      </div>
+    </div>
+
+    <div class="jet-block" id="jetBack">
+      <div class="jb-hd"><span class="jb-ic">🌅</span><div><div class="jb-t">返程这一个夜：卢森堡 18:40 起飞 → 香港 17:15 落地</div><div class="jb-s">关键换算：卢森堡 18:40 起飞 = <b>香港凌晨 00:40</b> —— 反过来，一上飞机就尽快睡（全程约 16.5 小时，含一次中转）</div></div></div>
+      <div class="jb-rows">
+        <div class="jb-row"><span class="jb-time">香港 00:40<em>起飞</em></span><span class="jb-do">对香港身体来说已是深夜：<b>起飞后 1 小时内就睡</b>，别开电影、别吃重餐</span></div>
+        <div class="jb-row"><span class="jb-time">香港 01:40–09:00<em>主睡段</em></span><span class="jb-do">目标是连着睡 <b>7–8 小时</b>；中途转机只补水、上洗手间，不逗留不购物</span></div>
+        <div class="jb-row"><span class="jb-time">香港 09:00 后<em>中转 + 末段</em></span><span class="jb-do">按香港白天走：见光、少量咖啡因、正常吃一餐，<b>保持清醒到落地</b>，别再睡回去</span></div>
+        <div class="jb-row"><span class="jb-time">香港 17:15<em>落地</em></span><span class="jb-do">傍晚落地<b>千万别提前倒</b>：撑到 22:30–23:00 再睡；第二天 7–8 点起、早上晒光，两天就顺过来</span></div>
+      </div>
+    </div>
+
+    <div class="jr-t">机上 / 落地六条硬规则</div>
+    <div class="jr-grid">
+      <div class="jr"><span>💧</span><div><b>每小时 200ml 水</b>；酒精和咖啡因只在「目的地白天」喝 —— 红酒留给阿道夫桥，别在飞机上开</div></div>
+      <div class="jr"><span>⌚</span><div>登机就把手机手表切成<b>目的地时间</b>（看板小钟本来就是目的地时间，直接照着看）</div></div>
+      <div class="jr"><span>🦵</span><div>每 1–2 小时活动脚踝、起身走动一次；16 小时长航建议<b>压缩袜</b></div></div>
+      <div class="jr"><span>😴</span><div><b>眼罩 + 耳塞 + 颈枕</b>：光和声是睡着的两个最大敌人，比换宽座位更值</div></div>
+      <div class="jr"><span>☀️</span><div>落地当天<b>晒太阳 &gt; 补觉</b>：晨光 30 分钟能把生物钟一次推 1–1.5 小时</div></div>
+      <div class="jr"><span>💊</span><div>褪黑素可选（0.5–1mg，按目的地就寝时间提前 1 小时）；仅一般旅行建议，<b>不是医疗建议</b>，长期服药 / 怀孕 / 慢病先问医生</div></div>
+    </div>
+    <div class="cap" style="margin-top:10px">方向记忆：<b>往西飞</b>（去程）＝白天被拉长，先撑住再睡；<b>往东飞</b>（返程）＝白天被压缩，先睡够再撑。</div>
+  </section>
+
   <!-- CARDS -->
   <div class="grid2">
     <section class="panel">
@@ -526,7 +606,7 @@ body{
         <div class="row"><div class="ic">📱</div><div><div class="tt">交通卡手机化</div><div class="dd">巴黎 Navigo 在火车座位上用 Apple Pay 开通；波尔多/Pessac 用 24 小时票，一票走 Tram B + A 去机场。</div></div></div>
         <div class="row"><div class="ic">🛒</div><div><div class="tt">超市打折 / 盲袋</div><div class="dd">瑞士主餐靠 Coop 超市（烤鸡腿、沙拉、贴纸食品），晚间用 TGTG App 抢盲袋。</div></div></div>
         <div class="row"><div class="ic">🎫</div><div><div class="tt">Coop 日票必填日期</div><div class="dd">10/1 日内瓦机场拿到 9 张实体日票，当场用笔填好 01.10.26 / 02.10.26 / 03.10.26，遇查票出示。</div></div></div>
-        <div class="row"><div class="ic">🚋</div><div><div class="tt">卢森堡全城公交免费</div><div class="dd">Day 10 出火车站直接跳 T1 电车、回程坐 29 路公交全免费；大件行李先存火车站自助柜再甩手逛老城。</div></div></div>
+        <div class="row"><div class="ic">🚋</div><div><div class="tt">卢森堡公交免费 + T1 直达机场</div><div class="dd">全城公交/电车免费。去机场认准 <b>T1 有轨电车（Aéroport 方向）</b>：火车站门口上车、专用轨道不堵车、约 25 分钟到航站楼 —— 比打车更稳。大件行李先存火车站自助柜再甩手逛老城。</div></div></div>
       </div>
     </section>
 
@@ -743,7 +823,7 @@ const DAYS = [
     it('11:30','11:30',null,'大公府','在老城石板路上向北步行约 <b>5–7 分钟</b>，抵达<b>大公府</b>。在门口拍欧式宫廷建筑，运气好能碰上卫兵换岗。'),
     it('12:15','12:15','14:00','全景电梯 · 主推','从大公府继续向北步行约 10 分钟，抵达 <b>Pfaffenthal 免费全景电梯 (Ascenseur Panoramique)</b>。走上悬空玻璃栈道，乘坐全景透明舱<b>60 米高空直降谷底</b>，视觉极其震撼。在谷底的峡谷小镇散步，找一家静谧的咖啡馆 / Bistro 吃午餐，享受卢森堡的慢时光。'),
     it('14:30','14:30','15:00','取行李','原路坐电梯回到上层，走 3 分钟到旁边的电车站 <b>(Fondation Pescatore)</b>，坐 <b>T1 电车</b>轻松原路返回火车站，取回行李。'),
-    it('15:30','15:30','18:40','起飞','从火车站坐公交（如 <b>29 路</b>，依然免费）或打车，约 20 分钟直达<b>卢森堡机场 (LUX)</b>。<b>退税，18:40 登机起飞。</b>')
+    it('15:30','15:30','18:40','撤退 · 主推 T1 直达机场','取到行李后出火车站大门，<b>直接在门口上 T1 有轨电车（往 Aéroport 方向）</b>——专用轨道绝不堵车、几分钟一班、依然全免费，约 <b>25 分钟</b>直达机场航站楼门口，时间极其可控。赶时间或行李太多才打车（约 20 分钟，会堵）。<b>退税 + 安检排队，18:40 登机起飞。</b>')
   ]},
 { d:11, y:2026, mo:10, dd:7, tz:TZ.HKG, emoji:'🛬', city:'香港', tzLabel:'香港时间', th:'hk',
   title:'满载而归',
@@ -1296,6 +1376,7 @@ function tick(){
   renderMiniBar(now, phase, today, cur, nxt);
   renderTgtg(now, today, phase);
   renderTransit(today);
+  jetFocus(today);
 
   /* --- 跨天自动跟上：新的一天自动展开并滚到视野中央 --- */
   if(today && today.d !== lastTodayD){
@@ -1531,7 +1612,9 @@ const CHECKS = [
   ['TGTG 盲袋 App', '注册好，瑞士晚间抢盲袋用'],
   ['退税单据', '10/6 卢森堡机场 (LUX) 起飞前办理'],
   ['波尔多 24h 票', 'Pessac Centre 站机器购买，约 5.3 欧'],
-  ['红酒托运', '波尔多买一瓶心仪红酒放行李箱；9/28 晚尼斯鹅卵石沙滩配酒（顺手拿两条浴巾）']
+  ['红酒托运', '波尔多买一瓶心仪红酒放行李箱；9/28 晚尼斯鹅卵石沙滩配酒（顺手拿两条浴巾）'],
+  ['眼罩 + 耳塞 + 颈枕', '两段夜航的关键装备，比换宽座位更值'],
+  ['压缩袜', '去程 10h40m、返程约 16.5h 长航，防腿肿']
 ];
 const CK_KEY = 'eu2026-checklist-v1';
 let ckState = {};
@@ -1692,8 +1775,8 @@ const TRANSIT = [
     body:'经伊斯坦布尔 (IST) 转机，10:10 落地 BOD；取行李后叫 Uber 直奔酒庄，11:00 品酒。',
     risk:'⚠️ 红眼 + 时差 −6h 的第一站；落地到酒庄只留约 50 分钟，别在行李转盘磨蹭。' },
   { d:10, ic:'🛬', t:'返程衔接 · 卢森堡 → 香港',
-    body:'15:30 回卢森堡火车站取行李 → 打车约 25 分钟到 LUX，18:40 起飞。',
-    risk:'⚠️ 先办退税再去安检；15:30 拿到行李就得走，老城区别恋战。' },
+    body:'15:30 回卢森堡火车站取行李 → 门口上 <b>T1 有轨电车（Aéroport 方向）</b>约 25 分钟直达机场（免费、专用轨道不堵车），18:40 起飞。',
+    risk:'⚠️ 先办退税再去安检；15:30 拿到行李就得走，老城区别恋战。当天时差 +6h，飞机上按香港时间尽快睡。' },
   { d:11, ic:'🏠', t:'终章 · 落地香港',
     body:'17:15 落地香港 (HKG)，12 天全行程收官。',
     risk:'✅ 无衔接风险；核对退税到账与行李件数即可。', calm:true }
@@ -1727,6 +1810,20 @@ function renderTransit(today){
 /* =========================================================
    3.8 应急信息 · 本机私有号码
    ========================================================= */
+/* 时差卡：当天落在去程 / 返程就高亮对应那一块 */
+let jetKey = '';
+function jetFocus(today){
+  const k = today ? today.d : '-';
+  if(k === jetKey) return;
+  jetKey = k;
+  const o = document.getElementById('jetOut'), b = document.getElementById('jetBack');
+  if(o) o.classList.toggle('hot', !!today && today.d <= 1);
+  if(b) b.classList.toggle('hot', !!today && today.d >= 10);
+}
+
+/* =========================================================
+   3.8 应急信息 · 本机私有号码
+   ========================================================= */
 const EMG_KEY = 'eu2026-emg-v1';
 let emgSaved = {};
 try{ emgSaved = JSON.parse(localStorage.getItem(EMG_KEY) || '{}'); }catch(e){ emgSaved = {}; }
@@ -1741,7 +1838,7 @@ document.addEventListener('input', e=>{
 /* =========================================================
    3.9 离线就绪指示
    ========================================================= */
-const APP_V = 'v9';
+const APP_V = 'v10';
 (function offStat(){
   const el = document.getElementById('offStat');
   if(!el) return;
