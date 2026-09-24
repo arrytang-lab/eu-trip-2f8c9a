@@ -325,7 +325,7 @@ body{
   .chk .cd{font-size:12.4px;line-height:1.55}
   .foot{font-size:11.4px;line-height:1.85;margin-top:18px}
   .tools .hint{font-size:11px;padding:5px 9px}
-  .mapseg button{font-size:11px;padding:6px 10px}
+  .mapseg button{font-size:10.8px;padding:5px 9px}
   .pin{padding:1.5px 0;border-bottom-style:dotted}
   .now-next .tgtg-btn{margin-left:0}
   /* 触屏不依赖 hover */
@@ -338,8 +338,8 @@ body{
 /* ===== 地点可点 → 地图 App ===== */
 .tools .hint{font-size:11.6px;color:var(--muted);background:var(--card);border:1px solid var(--line);padding:5px 11px;border-radius:999px}
 .tools .hint b{color:var(--ink2)}
-.mapseg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card)}
-.mapseg button{appearance:none;border:0;background:transparent;font:inherit;font-size:11.6px;color:var(--muted);padding:6px 12px;cursor:pointer}
+.mapseg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card)}
+.mapseg button{appearance:none;border:0;background:transparent;font:inherit;font-size:11.6px;color:var(--muted);padding:6px 11px;cursor:pointer}
 .mapseg button.on{background:linear-gradient(135deg,var(--mint),var(--mint2));color:#fff;font-weight:700}
 .pin{color:inherit;text-decoration:none;font-weight:600;border-bottom:1px dashed rgba(var(--acc-rgb),.55);cursor:pointer;padding-bottom:.5px}
 .pin:active{color:var(--mint-d);border-bottom:1px solid var(--mint-d)}
@@ -446,7 +446,8 @@ body{
     <span class="hint">📍 行程里的<b>地点名</b>都能点，新标签页打开地图</span>
     <div class="mapseg" id="mapSeg">
       <button type="button" data-map="apple">苹果地图</button>
-      <button type="button" data-map="google">Google 地图</button>
+      <button type="button" data-map="googleapp">Google 地图 App</button>
+      <button type="button" data-map="googleweb">Google 网页版</button>
     </div>
     <button class="btn primary" id="btnToday">回到今天</button>
     <button class="btn" id="btnExpand">展开全部</button>
@@ -774,16 +775,21 @@ const plain = h => String(h).replace(/<br\s*\/?>/gi,' ').replace(/<[^>]+>/g,'').
 
 /* --- 地图 App 选择（默认苹果地图，可切 Google，存本机）--- */
 const MAP_KEY = 'eu2026-mapapp-v1';
+const MAP_MODES = ['apple','googleapp','googleweb'];
+const GMAPS = 'comgooglemaps://';
 let mapApp = 'apple';
-try{ mapApp = localStorage.getItem(MAP_KEY) || 'apple'; }catch(e){}
+try{
+  const s = localStorage.getItem(MAP_KEY);
+  mapApp = MAP_MODES.indexOf(s) >= 0 ? s : (s === 'google' ? 'googleweb' : 'apple');   // 旧值 google → googleweb
+}catch(e){}
 function mapUrl(q){
   const e = encodeURIComponent(q);
-  return mapApp === 'google'
-    ? 'https://www.google.com/maps/search/?api=1&query=' + e
-    : 'https://maps.apple.com/?q=' + e;
+  return mapApp === 'apple'
+    ? 'https://maps.apple.com/?q=' + e
+    : 'https://www.google.com/maps/search/?api=1&query=' + e;
 }
 function setMapApp(v){
-  mapApp = (v === 'google') ? 'google' : 'apple';
+  mapApp = MAP_MODES.indexOf(v) >= 0 ? v : 'apple';
   try{ localStorage.setItem(MAP_KEY, mapApp); }catch(e){}
   document.querySelectorAll('.pin[data-q]').forEach(a=>{ a.href = mapUrl(a.dataset.q); });
   document.querySelectorAll('#mapSeg button').forEach(b=> b.classList.toggle('on', b.dataset.map === mapApp));
@@ -791,6 +797,26 @@ function setMapApp(v){
 document.querySelectorAll('#mapSeg button').forEach(b=>{
   b.classList.toggle('on', b.dataset.map === mapApp);
   b.addEventListener('click', ()=> setMapApp(b.dataset.map));
+});
+/* Google 地图 App 模式：点地点先用 comgooglemaps:// 唤起 App；没装（未被接管）则新标签页开网页版，不弹错误框 */
+document.addEventListener('click', e=>{
+  if(mapApp !== 'googleapp') return;
+  const a = e.target.closest('.pin[data-q]');
+  if(!a) return;
+  e.preventDefault();
+  const q = a.dataset.q;
+  try{
+    const f = document.createElement('iframe');
+    f.style.display = 'none'; f.src = GMAPS + '?q=' + encodeURIComponent(q);
+    document.body.appendChild(f);
+    setTimeout(()=>{ try{ document.body.removeChild(f); }catch(_){} }, 1400);
+  }catch(_){}
+  setTimeout(()=>{
+    if(document.hidden || document.visibilityState === 'hidden') return;   // App 已接管
+    let w = null;
+    try{ w = window.open(mapUrl(q), '_blank'); }catch(_){}
+    if(w){ try{ w.opener = null; }catch(_){} } else { location.href = mapUrl(q); }
+  }, 800);
 });
 
 /* --- 每日可点地点：[行程里的文字, 地图检索词] --- */
