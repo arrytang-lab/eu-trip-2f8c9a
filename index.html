@@ -403,12 +403,13 @@ body{
   <div class="grid2">
     <section class="panel">
       <h3>🎒 核心战术</h3>
-      <div class="desc">来自封板路书的四条省钱/减负主逻辑</div>
+      <div class="desc">来自封板路书的五条省钱/减负主逻辑</div>
       <div class="tac">
         <div class="row"><div class="ic">🧳</div><div><div class="tt">行李寄存前置甩手玩</div><div class="dd">酒庄前台、酒店前台、火车站寄存柜——先把行李丢下再开始逛，不带箱进景点。</div></div></div>
         <div class="row"><div class="ic">📱</div><div><div class="tt">交通卡手机化</div><div class="dd">巴黎 Navigo 在火车座位上用 Apple Pay 开通；波尔多/Pessac 用 24 小时票，一票走 Tram B + A 去机场。</div></div></div>
         <div class="row"><div class="ic">🛒</div><div><div class="tt">超市打折 / 盲袋</div><div class="dd">瑞士主餐靠 Coop 超市（烤鸡腿、沙拉、贴纸食品），晚间用 TGTG App 抢盲袋。</div></div></div>
         <div class="row"><div class="ic">🎫</div><div><div class="tt">Coop 日票必填日期</div><div class="dd">10/1 日内瓦机场拿到 9 张实体日票，当场用笔填好 01.10.26 / 02.10.26 / 03.10.26，遇查票出示。</div></div></div>
+        <div class="row"><div class="ic">🚋</div><div><div class="tt">卢森堡全城公交免费</div><div class="dd">Day 10 出火车站直接跳 T1 电车、回程坐 29 路公交全免费；大件行李先存火车站自助柜再甩手逛老城。</div></div></div>
       </div>
     </section>
 
@@ -420,8 +421,8 @@ body{
   </div>
 
   <div class="foot">
-    看板按行程当地时间自动判断「今天 / 进行中」，每秒刷新 · 数据源：2026 国庆欧游终极封板路书<br>
-    时间换算基于各日所在时区（马尼拉 / 巴黎 / 苏黎世 / 香港）· 打印时自动展开全部行程
+    看板按行程当地时间自动判断「今天 / 进行中」，每秒刷新 · 数据源：2026 国庆欧游终极封板路书（吃货高亮版）<br>
+    时间换算基于各日所在时区（马尼拉 / 巴黎 / 苏黎世 / 卢森堡 / 香港）· 打印时自动展开全部行程
   </div>
 </div>
 
@@ -486,7 +487,7 @@ function dur(ms){
 /* =========================================================
    1. 行程数据（结构化自封板路书）
    ========================================================= */
-const TZ = { MNL:'Asia/Manila', PAR:'Europe/Paris', ZRH:'Europe/Zurich', HKG:'Asia/Hong_Kong' };
+const TZ = { MNL:'Asia/Manila', PAR:'Europe/Paris', ZRH:'Europe/Zurich', LUX:'Europe/Luxembourg', HKG:'Asia/Hong_Kong' };
 
 function it(t, s, e, tag, text, soft){
   return { t, s, e, tag, text, soft: !!soft };
@@ -508,7 +509,7 @@ const DAYS = [
     it('11:00','11:00','11:30','酒庄','Uber 直达 <b>Château Pape Clément（黑教皇城堡）</b>，车程 15 分。行李扔前台，开始品酒。'),
     it('12:30','12:30','12:45','神券','从酒庄步行 <b>15 分钟</b>至 Pessac Centre 站，机器上买 <b>24 小时交通票（约 5.3 欧）</b>。'),
     it('12:50','12:50','13:30','安顿','刷票上 <b>Tram B 线</b>（往 Berges de la Garonne），坐 40 分钟到 Bassins à Flot 站，步行 3 分钟入住 Radisson Blu，甩掉行李。'),
-    it('14:30','14:30','18:30','老城','Tram B 回市中心，Hôtel de Ville 站下车：主教堂 → 大钟门 → Cassonade 买可露丽 → 狂扫 Vintage 店。'),
+    it('14:30','14:30','18:30','老城','Tram B 回市中心，Hôtel de Ville 站下车：主教堂 → 大钟门 → <b>🍮 必吃：Cassonade 正宗波尔多可露丽 (Canelé)</b>，外脆里糯 → 狂扫 Peau d\'Anne 等 Vintage 店。'),
     it('19:00','19:00','21:00','晚霞','步行至水镜池看日落。晚餐 Boeuf Gourmand 吃牛排。')
   ]},
 { d:2, y:2026, mo:9, dd:28, tz:TZ.PAR, emoji:'🌊', city:'波尔多 → 尼斯', tzLabel:'法国时间',
@@ -524,7 +525,7 @@ const DAYS = [
   title:'南法东线（芒通与摩纳哥 F1 超跑）',
   items:[
     it('08:50','08:50','09:30','碰头','出门坐 Tram L2 到 Jean Médecin 站，向北步行 8 分钟。<b>09:30 在 Nice-Ville（尼斯中央火车站）正门与朋友碰头。</b>'),
-    it('09:40','09:40','12:30','芒通','坐 TER 至 Menton-Garavan 站：沙滩 → 黄色阶梯 → 圣米歇尔教堂 → Eau de Menton。午餐 La Trattoria，冰淇淋 TUTTI FRUTTI。'),
+    it('09:40','09:40','12:30','芒通','坐 TER 至 Menton-Garavan 站：沙滩 → 黄色阶梯 → 圣米歇尔教堂 → Eau de Menton。午餐 La Trattoria；<b>🍦 必吃：饭后直奔 TUTTI FRUTTI</b>，吃芒通当地最棒的意式 Gelato。'),
     it('15:00','15:00','18:00','摩纳哥','回芒通站坐 TER，<b>12 分钟</b>抵 Monaco-Monte-Carlo 站，逛亲王宫、赌场。'),
     it('18:30','18:30',null,'高光时刻','日落 Golden Hour：<b>租跑车自驾体验摩纳哥 F1 发卡弯赛道</b>。'),
     it('晚归','20:00','22:30','返程','走回摩纳哥地下火车站，坐 TER 返回尼斯。', true)
@@ -533,9 +534,9 @@ const DAYS = [
   title:'南法西线（老城与天使湾）',
   items:[
     it('09:30','09:30','10:00','昂蒂布','Nice-Ville 站碰头，坐 TER（往 Cannes 方向）到 Antibes 站。出站<b>平地步行 10–15 分钟</b>到老城。'),
-    it('12:30','12:30',null,'午餐','LA CIVETTE 餐厅，饭后 Gelateria del porto 冰淇淋。'),
+    it('12:30','12:30',null,'午餐','LA CIVETTE 餐厅；<b>🍦 必吃：Gelateria del porto</b>，举着冰淇淋看游艇。'),
     it('15:00','15:00','17:00','自由城','回 Antibes 站坐 TER（穿城不停）直达 Villefranche-sur-Mer 站，海边喝咖啡。'),
-    it('18:00','18:00',null,'天使湾','坐 TER 回 Nice-Ville，转 <b>Tram L1</b> 到 Opéra 站，走 5 分钟到海边，坐免费电梯上<b>城堡山</b>俯瞰天使湾落日，下山吃 AZZURRO。')
+    it('18:00','18:00',null,'天使湾','坐 TER 回 Nice-Ville，转 <b>Tram L1</b> 到 Opéra 站，走 5 分钟到海边，坐免费电梯上<b>城堡山</b>俯瞰天使湾落日；<b>🍦 必吃：下山吃 AZZURRO Artisan Glacier</b>，为南法画上句号。')
   ]},
 { d:5, y:2026, mo:10, dd:1, tz:TZ.ZRH, emoji:'🇨🇭', city:'尼斯 → 日内瓦 → 伯尔尼', tzLabel:'瑞士时间',
   title:'瑞士交接（面基拿神票）',
@@ -583,13 +584,18 @@ const DAYS = [
     it('19:30','19:30','21:00','食堂','地铁 8 号线到 Grands Boulevards，吃百年食堂 <b>Bouillon Chartier</b> 蜗牛大餐。'),
     it('21:00','21:00',null,'消食','沿 Rue La Fayette 步行 10–15 分钟走回酒店打包。')
   ]},
-{ d:10, y:2026, mo:10, dd:6, tz:TZ.PAR, emoji:'🇱🇺', city:'巴黎 → 卢森堡', tzLabel:'欧洲中部时间',
-  title:'完美撤退（卢森堡半日游）',
+{ d:10, y:2026, mo:10, dd:6, tz:TZ.LUX, emoji:'🇱🇺', city:'巴黎 → 卢森堡', tzLabel:'卢森堡时间',
+  title:'完美撤退（卢森堡半日游与全景电梯）',
   items:[
     it('06:50','06:50','07:05','极速上车','退房，推行李向北<b>步行 8–10 分钟</b>直达巴黎东站，买咖啡牛角包。'),
     it('07:35','07:35','09:50','跨国','坐 TGV 抵达<b>卢森堡 (Luxembourg) 火车站</b>。'),
-    it('10:00','10:00','14:30','千堡之国','火车站机器寄存行李，坐免费公交去老城：阿道夫桥 → 宪法广场 → 欧洲最美阳台（风景走廊）→ 午餐。'),
-    it('15:30','15:30','18:40','起飞','回火车站取行李，坐公交或打车（25 分钟）去卢森堡机场 (LUX)。<b>退税，18:40 登机起飞。</b>')
+    it('10:00','10:00','10:10','寄存与电车','在火车站机器上寄存好大件行李。<b>走出火车站大门不用过马路</b>，直接在门口的电车站跳上免费 <b>T1 有轨电车</b>（往 Luxexpo / Kirchberg 方向）。'),
+    it('10:15','10:15',null,'阿道夫大桥','电车缓缓驶过巨大的峡谷，<b>过了桥立刻在 Place de Metz 站下车</b>，回头拍摄地标<b>阿道夫桥 (Pont Adolphe)</b>。'),
+    it('10:30','10:30',null,'广场与教堂','步行 2 分钟，顺着金色少女像走到<b>宪法广场</b>打卡，顺路看一眼<b>欧洲最美阳台（风景走廊）</b>。转头走到对面的<b>圣母大教堂</b>，免费入内，安静坐在长椅上欣赏梦幻的哥特式彩窗。'),
+    it('11:30','11:30',null,'大公府','在老城石板路上向北步行约 <b>5–7 分钟</b>，抵达<b>大公府</b>。在门口拍欧式宫廷建筑，运气好能碰上卫兵换岗。'),
+    it('12:15','12:15','14:00','全景电梯 · 主推','从大公府继续向北步行约 10 分钟，抵达 <b>Pfaffenthal 免费全景电梯 (Ascenseur Panoramique)</b>。走上悬空玻璃栈道，乘坐全景透明舱<b>60 米高空直降谷底</b>，视觉极其震撼。在谷底的峡谷小镇散步，找一家静谧的咖啡馆 / Bistro 吃午餐，享受卢森堡的慢时光。'),
+    it('14:30','14:30','15:00','取行李','原路坐电梯回到上层，走 3 分钟到旁边的电车站 <b>(Fondation Pescatore)</b>，坐 <b>T1 电车</b>轻松原路返回火车站，取回行李。'),
+    it('15:30','15:30','18:40','起飞','从火车站坐公交（如 <b>29 路</b>，依然免费）或打车，约 20 分钟直达<b>卢森堡机场 (LUX)</b>。<b>退税，18:40 登机起飞。</b>')
   ]},
 { d:11, y:2026, mo:10, dd:7, tz:TZ.HKG, emoji:'🛬', city:'香港', tzLabel:'香港时间',
   title:'满载而归',
