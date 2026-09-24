@@ -324,12 +324,40 @@ body{
   .chk .ct{font-size:14px}
   .chk .cd{font-size:12.4px;line-height:1.55}
   .foot{font-size:11.4px;line-height:1.85;margin-top:18px}
+  .tools .hint{font-size:11px;padding:5px 9px}
+  .mapseg button{font-size:11px;padding:6px 10px}
+  .pin{padding:1.5px 0;border-bottom-style:dotted}
+  .now-next .tgtg-btn{margin-left:0}
   /* 触屏不依赖 hover */
   .day-hd:hover,.item:hover{background:transparent}
   .chk:hover{border-color:var(--line);background:#fff}
   .btn:hover{border-color:var(--line);color:var(--ink2);background:#fff}
   .btn.primary:hover{color:#fff;border-color:transparent;background:linear-gradient(135deg,var(--mint),#2fb8c9)}
 }
+
+/* ===== 地点可点 → 地图 App ===== */
+.tools .hint{font-size:11.6px;color:var(--muted);background:var(--card);border:1px solid var(--line);padding:5px 11px;border-radius:999px}
+.tools .hint b{color:var(--ink2)}
+.mapseg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card)}
+.mapseg button{appearance:none;border:0;background:transparent;font:inherit;font-size:11.6px;color:var(--muted);padding:6px 12px;cursor:pointer}
+.mapseg button.on{background:linear-gradient(135deg,var(--mint),var(--mint2));color:#fff;font-weight:700}
+.pin{color:inherit;text-decoration:none;font-weight:600;border-bottom:1px dashed rgba(var(--acc-rgb),.55);cursor:pointer;padding-bottom:.5px}
+.pin:active{color:var(--mint-d);border-bottom:1px solid var(--mint-d)}
+@media (hover:hover){ .pin:hover{color:var(--mint-d);border-bottom:1px solid var(--mint-d)} }
+/* ===== TGTG 盲袋 ===== */
+.badge.tgtg{background:var(--card);color:var(--ink2);border-color:var(--line);text-decoration:none}
+.badge.tgtg .tgdot{opacity:.45;filter:grayscale(1)}
+.badge.tgtg.soon{background:#fff9ec;border-color:#f0d9a8;color:#8a6412}
+.badge.tgtg.now{background:linear-gradient(135deg,#2fbf71,#12a05a);border-color:transparent;color:#fff;animation:tgp 1.7s infinite ease-in-out}
+.badge.tgtg.now .tgdot{opacity:1;filter:none}
+@keyframes tgp{0%,100%{box-shadow:0 0 0 0 rgba(47,191,113,.45)}50%{box-shadow:0 0 0 8px rgba(47,191,113,0)}}
+.tgtg-btn{display:inline-flex;align-items:center;gap:7px;margin-top:9px;font-size:12.4px;font-weight:700;line-height:1.3;color:#0d7a45;background:#eafaf1;border:1px solid #b6e7cd;padding:7px 13px;border-radius:999px;text-decoration:none;cursor:pointer}
+.tgtg-btn .tgp{width:8px;height:8px;flex:0 0 8px;border-radius:50%;background:#2fbf71;box-shadow:0 0 0 3px rgba(47,191,113,.22)}
+.tgtg-btn.now{background:linear-gradient(135deg,#2fbf71,#12a05a);border-color:transparent;color:#fff;animation:tgp 1.7s infinite ease-in-out}
+.tgtg-btn.now .tgp{background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.34)}
+.now-next .tgtg-btn{margin-top:0;margin-left:auto}
+.mbar .mb-tgtg{flex:0 0 auto;margin-left:8px;font-size:11.4px;font-weight:800;color:#0b3d24;background:#7ff0b6;padding:6px 10px;border-radius:999px;display:none}
+.mbar .mb-tgtg.on{display:block}
 
 @media print{
   body{background:#fff}
@@ -365,6 +393,7 @@ body{
       </div>
       <div class="hd-right">
         <span class="badge theme" id="themeChip"><span class="tdot"></span><span id="themeTx">城市配色</span></span>
+        <a class="badge tgtg" id="tgtgChip" href="https://www.toogoodtogo.com/" data-tgtg="1" title="打开 Too Good To Go"><span class="tgdot">🥡</span><span id="tgtgTx">TGTG 盲袋</span></a>
         <div id="statusBadge" class="badge"><span class="dot"></span><span id="statusText">加载中…</span></div>
       </div>
     </div>
@@ -414,6 +443,11 @@ body{
   <!-- TOOLS -->
   <div class="tools">
     <div class="title">🗓️ 全行程时间轴</div>
+    <span class="hint">📍 行程里的<b>地点名</b>都能点一下，直接跳地图 App</span>
+    <div class="mapseg" id="mapSeg">
+      <button type="button" data-map="apple">苹果地图</button>
+      <button type="button" data-map="google">Google 地图</button>
+    </div>
     <button class="btn primary" id="btnToday">回到今天</button>
     <button class="btn" id="btnExpand">展开全部</button>
   </div>
@@ -454,6 +488,7 @@ body{
     <div class="mb-1" id="mbarTag">此刻</div>
     <div class="mb-2" id="mbarText">加载中…</div>
   </div>
+  <div class="mb-tgtg" id="mbarTgtg">🥡 TGTG 时段</div>
   <div class="mb-right">
     <div class="mb-big" id="mbarLeft">--</div>
     <div class="mb-k" id="mbarK">剩余</div>
@@ -732,6 +767,198 @@ const tl = $('#tl');
 const itemRefs = [];   // {el, day, item}
 const dayRefs = [];
 
+/* =========================================================
+   2.0 地点可点 → 地图 App　/　TGTG 盲袋时段
+   ========================================================= */
+const plain = h => String(h).replace(/<br\s*\/?>/gi,' ').replace(/<[^>]+>/g,'').replace(/\s{2,}/g,' ').trim();
+
+/* --- 地图 App 选择（默认苹果地图，可切 Google，存本机）--- */
+const MAP_KEY = 'eu2026-mapapp-v1';
+let mapApp = 'apple';
+try{ mapApp = localStorage.getItem(MAP_KEY) || 'apple'; }catch(e){}
+function mapUrl(q){
+  const e = encodeURIComponent(q);
+  return mapApp === 'google'
+    ? 'https://www.google.com/maps/search/?api=1&query=' + e
+    : 'https://maps.apple.com/?q=' + e;
+}
+function setMapApp(v){
+  mapApp = (v === 'google') ? 'google' : 'apple';
+  try{ localStorage.setItem(MAP_KEY, mapApp); }catch(e){}
+  document.querySelectorAll('.pin[data-q]').forEach(a=>{ a.href = mapUrl(a.dataset.q); });
+  document.querySelectorAll('#mapSeg button').forEach(b=> b.classList.toggle('on', b.dataset.map === mapApp));
+}
+document.querySelectorAll('#mapSeg button').forEach(b=>{
+  b.classList.toggle('on', b.dataset.map === mapApp);
+  b.addEventListener('click', ()=> setMapApp(b.dataset.map));
+});
+
+/* --- 每日可点地点：[行程里的文字, 地图检索词] --- */
+const PINS = {
+  0:[ ['SM Mall of Asia','SM Mall of Asia, Pasay, Metro Manila'],
+      ['马尼拉 (MNL) T3','NAIA Terminal 3, Manila'] ],
+  1:[ ['伊斯坦布尔 (IST)','Istanbul Airport'],
+      ['Château Pape Clément','Château Pape Clément, Pessac, France'],
+      ['Pessac Centre 站','Pessac Centre tram stop, Bordeaux'],
+      ['Bassins à Flot 站','Bassins à Flot tram stop, Bordeaux'],
+      ['Radisson Blu','Radisson Blu Hotel Bordeaux'],
+      ['Hôtel de Ville 站','Hôtel de Ville tram stop, Bordeaux'],
+      ['主教堂','Cathédrale Saint-André de Bordeaux'],
+      ['大钟门','Grosse Cloche de Bordeaux'],
+      ['Cassonade','Cassonade, Bordeaux'],
+      ['水镜池',"Miroir d'eau, Bordeaux"],
+      ['Boeuf Gourmand','Boeuf Gourmand, Bordeaux'] ],
+  2:[ ['La Cité du Vin','La Cité du Vin, Bordeaux'],
+      ['Porte de Bourgogne 站','Porte de Bourgogne tram stop, Bordeaux'],
+      ['尼斯 (NCE)',"Nice Côte d'Azur Airport"],
+      ['Sainte-Hélène 站','Sainte-Hélène tram stop, Nice'],
+      ['Radisson Blu Nice','Radisson Blu Hotel Nice'],
+      ['Garnier 餐厅','Garnier restaurant, Nice, France'],
+      ['海滩','Promenade des Anglais, Nice'] ],
+  3:[ ['Jean Médecin 站','Jean Médecin tram stop, Nice'],
+      ['Nice-Ville','Nice-Ville station, France'],
+      ['Menton-Garavan 站','Menton-Garavan station, France'],
+      ['圣米歇尔教堂','Basilique Saint-Michel Archange, Menton'],
+      ['La Trattoria','La Trattoria, Menton, France'],
+      ['TUTTI FRUTTI','Tutti Frutti, Menton, France'],
+      ['Monaco-Monte-Carlo 站','Monaco-Monte-Carlo station'],
+      ['亲王宫','Palais Princier de Monaco'],
+      ['赌场','Casino de Monte-Carlo'],
+      ['摩纳哥地下火车站','Monaco-Monte-Carlo station'] ],
+  4:[ ['Nice-Ville 站','Nice-Ville station, France'],
+      ['Antibes 站','Antibes station, France'],
+      ['LA CIVETTE','La Civette, Antibes, France'],
+      ['Gelateria del porto','Gelateria del Porto, Antibes'],
+      ['Villefranche-sur-Mer 站','Villefranche-sur-Mer station, France'],
+      ['Opéra 站','Opéra tram stop, Nice'],
+      ['城堡山','Colline du Château, Nice'],
+      ['AZZURRO Artisan Glacier','Azzurro Artisan Glacier, Nice'],
+      ['天使湾','Baie des Anges, Nice'] ],
+  5:[ ['日内瓦 (GVA)','Geneva Airport'],
+      ['日内瓦机场火车站','Geneva Airport railway station'],
+      ['Bern HB','Bern Bahnhof, Switzerland'],
+      ['Prize by Radisson','Prize by Radisson Bern'] ],
+  6:[ ['Stans 站','Stans station, Switzerland'],
+      ['石丹峰','Stanserhorn, Switzerland'],
+      ['卢塞恩火车站','Luzern Bahnhof, Switzerland'],
+      ['Coop 超市','Coop Supermarkt Luzern Bahnhof'],
+      ['Vitznau 码头','Vitznau ferry terminal, Lake Lucerne'],
+      ['瑞吉山','Rigi Kulm, Switzerland'],
+      ['Rigi Kulm','Rigi Kulm, Switzerland'],
+      ['Arth-Goldau 站','Arth-Goldau station, Switzerland'] ],
+  7:[ ['Kandersteg','Kandersteg station, Switzerland'],
+      ['厄希嫩湖 (Oeschinensee)','Oeschinensee, Switzerland'],
+      ['Spiez','Spiez station, Switzerland'],
+      ['因特拉肯东站 (Interlaken Ost)','Interlaken Ost station'],
+      ['Lauterbrunnen','Lauterbrunnen station, Switzerland'],
+      ['瀑布镇','Lauterbrunnen, Switzerland'],
+      ['Wengen（文根）','Wengen, Switzerland'] ],
+  8:[ ['Basel SBB','Basel SBB station, Switzerland'],
+      ['巴黎里昂站','Gare de Lyon, Paris'],
+      ['Pyramides','Pyramides station, Paris'],
+      ['Cadet 站','Cadet station, Paris'],
+      ['协和广场','Place de la Concorde, Paris'],
+      ['奥赛',"Musée d'Orsay, Paris"],
+      ['橘园美术馆',"Musée de l'Orangerie, Paris"],
+      ['Trocadéro 站','Trocadéro station, Paris'],
+      ['夏约宫','Palais de Chaillot, Paris'],
+      ['塞纳河游船','Seine river cruise, Paris'] ],
+  9:[ ['Opéra 站','Opéra station, Paris'],
+      ['Chanel 康朋街 31 号总店','31 Rue Cambon, Paris'],
+      ['里沃利街','Rue de Rivoli, Paris'],
+      ['皇家宫殿','Palais-Royal, Paris'],
+      ['卢浮宫','Musée du Louvre, Paris'],
+      ['杜乐丽花园','Jardin des Tuileries, Paris'],
+      ['海军府 (Hôtel de la Marine)','Hôtel de la Marine, Paris'],
+      ['Grands Boulevards','Grands Boulevards station, Paris'],
+      ['Bouillon Chartier','Bouillon Chartier, Paris'],
+      ['Rue La Fayette','Rue La Fayette, Paris'] ],
+  10:[ ['巴黎东站',"Gare de l'Est, Paris"],
+      ['卢森堡 (Luxembourg) 火车站','Gare de Luxembourg'],
+      ['Place de Metz 站','Place de Metz tram stop, Luxembourg'],
+      ['阿道夫桥 (Pont Adolphe)','Pont Adolphe, Luxembourg'],
+      ['宪法广场','Place de la Constitution, Luxembourg'],
+      ['欧洲最美阳台（风景走廊）','Chemin de la Corniche, Luxembourg'],
+      ['圣母大教堂','Cathédrale Notre-Dame, Luxembourg'],
+      ['大公府','Palais Grand-Ducal, Luxembourg'],
+      ['Pfaffenthal 免费全景电梯 (Ascenseur Panoramique)','Ascenseur panoramique Pfaffenthal, Luxembourg'],
+      ['Fondation Pescatore','Fondation Pescatore tram stop, Luxembourg'],
+      ['卢森堡机场 (LUX)','Luxembourg Airport'] ],
+  11:[ ['香港 (HKG)','Hong Kong International Airport'] ]
+};
+const BS = String.fromCharCode(92);
+const RE_SPECIAL = '.*+?^${}()|[]' + BS;
+const escRe = s => s.split('').map(c => RE_SPECIAL.indexOf(c) >= 0 ? BS + c : c).join('');
+const escAttr = s => String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+function pinify(html, pins){
+  if(!pins || !pins.length) return html;
+  const arr = [...pins].sort((a,b)=> b[0].length - a[0].length);
+  const q = {};
+  arr.forEach(p=>{ q[p[0]] = p[1]; });
+  const re = new RegExp(arr.map(p=> escRe(p[0])).join('|'), 'g');
+  return html.replace(re, m => `<a class="pin" href="${escAttr(mapUrl(q[m]))}" data-q="${escAttr(q[m])}" title="在地图中打开：${escAttr(q[m])}">${m}</a>`);
+}
+
+/* --- TGTG：盲袋黄金时段（当地 18:00–22:00）自动亮起 --- */
+const TGTG = { web:'https://www.toogoodtogo.com/', scheme:'tgtg://', from:18, to:22, lead:15 };
+function tgtgState(now, today){
+  if(!today) return 'idle';
+  let hh = 0, mm = 0;
+  try{
+    const s = F(today.tz, {hour12:false, hour:'2-digit', minute:'2-digit'}).format(now);
+    hh = +s.slice(0,2); mm = +s.slice(3,5);
+  }catch(e){}
+  const m = hh*60 + mm, a = TGTG.from*60, b = TGTG.to*60;
+  if(m >= a && m < b) return 'now';
+  if(m >= a - TGTG.lead && m < a) return 'soon';
+  return 'idle';
+}
+const tgtgChip = $('#tgtgChip'), tgtgTx = $('#tgtgTx'), tgtgBar = $('#mbarTgtg');
+let lastTgtg = '';
+function renderTgtg(now, today, phase){
+  const st = (phase === 'in' && today) ? tgtgState(now, today) : 'idle';
+  if(st !== lastTgtg){
+    lastTgtg = st;
+    tgtgChip.className = 'badge tgtg' + (st === 'now' ? ' now' : st === 'soon' ? ' soon' : '');
+    tgtgTx.textContent = st === 'now' ? 'TGTG 盲袋时段' : st === 'soon' ? 'TGTG 即将开始' : 'TGTG 盲袋';
+    tgtgChip.title = st === 'now' ? '正在盲袋黄金时段，点一下打开 App 抢'
+                   : st === 'soon' ? '盲袋时段 ' + TGTG.from + ':00 开始（每 15 分钟准备）'
+                   : '打开 Too Good To Go（盲袋黄金时段 ' + TGTG.from + ':00–' + TGTG.to + ':00 当地）';
+    tgtgBar.classList.toggle('on', st !== 'idle');
+    tgtgBar.textContent = st === 'now' ? '🥡 TGTG 时段' : '🥡 TGTG 将至';
+  }
+  /* 「此刻」面板内的快捷按钮（面板重建后会自动补回） */
+  const btnTxt = '<span class="tgp"></span>' + (st === 'now' ? '正在盲袋时段 · 打开 TGTG 抢' : '盲袋时段 15 分钟内开始 · 打开 TGTG');
+  const btnOld = nowCard.querySelector('.tgtg-btn');
+  if(st === 'idle'){ if(btnOld) btnOld.remove(); }
+  else if(btnOld){ btnOld.classList.toggle('now', st === 'now'); btnOld.innerHTML = btnTxt; }
+  else {
+    const host = nowCard.querySelector('.now-next') || nowCard.querySelector('.now-bar');
+    if(host){
+      const a = document.createElement('a');
+      a.className = 'tgtg-btn' + (st === 'now' ? ' now' : '');
+      a.href = TGTG.web; a.setAttribute('data-tgtg','1');
+      a.innerHTML = btnTxt;
+      host.appendChild(a);
+    }
+  }
+  return st;
+}
+/* 点 TGTG：优先尝试唤起 App，失败/未安装则落到官方网页版 */
+document.addEventListener('click', e=>{
+  const a = e.target.closest('[data-tgtg]');
+  if(!a) return;
+  e.preventDefault();
+  try{
+    const f = document.createElement('iframe');
+    f.style.display = 'none'; f.src = TGTG.scheme;
+    document.body.appendChild(f);
+    setTimeout(()=>{ try{ document.body.removeChild(f); }catch(_){} }, 1400);
+  }catch(_){}
+  const t0 = Date.now();
+  setTimeout(()=>{ if(!document.hidden && Date.now() - t0 < 4000) location.href = TGTG.web; }, 1000);
+});
+
 DAYS.forEach(day=>{
   const el = document.createElement('section');
   el.className = 'day';
@@ -771,6 +998,7 @@ DAYS.forEach(day=>{
   day.items.forEach(x=>{
     const r = document.createElement('div');
     r.className = 'item' + (x.soft ? ' soft' : '');
+    const hasTgtg = /TGTG/.test(x.text);
     const tm = x.soft && x.s && x.e
       ? `<div class="s">${x.t}</div><span class="e">${x.s}–${x.e}</span>`
       : (x.s && x.e
@@ -780,7 +1008,8 @@ DAYS.forEach(day=>{
       <div class="tm">${tm}</div>
       <div class="cx">
         <span class="tag">${x.tag}</span>
-        <div class="tx">${x.text}</div>
+        <div class="tx">${pinify(x.text, PINS[day.d])}</div>
+        ${hasTgtg ? `<a class="tgtg-btn" href="${TGTG.web}" data-tgtg="1"><span class="tgp"></span>打开 TGTG App 抢盲袋</a>` : ''}
         <div class="prog" style="display:none"><i style="width:0%"></i></div>
         <div class="leftnote" style="display:none"></div>
       </div>`;
@@ -925,6 +1154,7 @@ function tick(){
 
   renderNow(now, phase, today, cur, nxt);
   renderMiniBar(now, phase, today, cur, nxt);
+  renderTgtg(now, today, phase);
 
   /* --- 跨天自动跟上：新的一天自动展开并滚到视野中央 --- */
   if(today && today.d !== lastTodayD){
@@ -990,13 +1220,13 @@ function renderNow(now, phase, today, cur, nxt){
           <div class="now-main">
             <div>
               <span class="now-tag${cur.soft ? ' gap' : ''}">${cur.soft ? '弹性时段进行中' : '进行中'} · ${cur.tag}</span>
-              <div class="now-text">${cur.text.replace(/<\/?b>/g,'')}</div>
+              <div class="now-text">${plain(cur.text)}</div>
               <div class="now-meta">${dayTag} &nbsp;·&nbsp; ${cur.s ? cur.s + (cur.e ? ' – ' + cur.e : ' 起') : cur.t} &nbsp;·&nbsp; ${today.tzLabel}</div>
             </div>
             <div class="now-right"><div class="k">${hasEnd ? '本项剩余' : '已用时'}</div><div class="big" data-left></div></div>
           </div>
           <div class="now-bar"><div class="bar sub"><i data-life style="width:0%"></i></div></div>
-          <div class="now-next">${nxt ? `<span>⏭️ 下一个：</span><span class="tk">${nxt.s || nxt.t}</span><span>${nxt.tag} · ${nxt.text.replace(/<\/?b>/g,'').slice(0,42)}…</span><span class="px">还有 <b data-tonext></b></span>`
+          <div class="now-next">${nxt ? `<span>⏭️ 下一个：</span><span class="tk">${nxt.s || nxt.t}</span><span>${nxt.tag} · ${plain(nxt.text).slice(0,42)}…</span><span class="px">还有 <b data-tonext></b></span>`
                               : '<span>✅ 今日行程已全部结束，好好休息</span>'}</div>`;
         nowRefs = { left: nowCard.querySelector('[data-left]'), life: nowCard.querySelector('[data-life]'),
                     tonext: nowCard.querySelector('[data-tonext]'), hasEnd, curStart: cur.startAt, curEnd: cur.endAt };
@@ -1007,7 +1237,7 @@ function renderNow(now, phase, today, cur, nxt){
           <div class="now-main">
             <div>
               <span class="now-tag gap">${gapTag}</span>
-              <div class="now-text">${nxt ? '下一项：' + nxt.text.replace(/<\/?b>/g,'') : '今日日程已结束'}</div>
+              <div class="now-text">${nxt ? '下一项：' + plain(nxt.text) : '今日日程已结束'}</div>
               <div class="now-meta">${dayTag} &nbsp;·&nbsp; ${nxt ? (nxt.s || nxt.t) + ' 开始 · ' + today.tzLabel : '切换到休息模式'}</div>
             </div>
             <div class="now-right"><div class="k">${nxt ? '距下一项' : '状态'}</div><div class="big" data-left></div></div>
@@ -1074,13 +1304,13 @@ function renderMiniBar(now, phase, today, cur, nxt){
     left = (SPAN/86400000).toFixed(1) + '天'; k = '总耗时';
   } else if(cur){
     tag = (cur.soft ? '弹性时段' : '进行中') + ' · DAY ' + today.d + ' ' + cur.tag;
-    text = cur.text.replace(/<\/?b>/g,'');
+    text = plain(cur.text);
     if(cur.endAt){ left = dur(cur.endAt - now); k = '本项剩余'; }
     else         { left = dur(now - cur.startAt); k = '已用时'; }
   } else {
     const gapH = nxt ? (nxt.startAt - now)/3600000 : 999;
     tag = !nxt ? '今日已结束' : (gapH >= 6 ? '长途转场中' : '空档中') + ' · DAY ' + today.d;
-    text = nxt ? ('下一项：' + (nxt.s || nxt.t) + ' ' + nxt.tag + ' · ' + nxt.text.replace(/<\/?b>/g,'')) : '今日日程已结束';
+    text = nxt ? ('下一项：' + (nxt.s || nxt.t) + ' ' + nxt.tag + ' · ' + plain(nxt.text)) : '今日日程已结束';
     left = nxt ? dur(nxt.startAt - now) : '—'; k = nxt ? '距下一项' : '状态';
   }
   mbarTag.textContent = tag; mbarText.textContent = text;
