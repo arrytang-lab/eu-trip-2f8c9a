@@ -11,6 +11,7 @@
 <meta name="robots" content="noindex,nofollow">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='88'>🌍</text></svg>">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
 <title>2026 国庆欧游 · 实时看板</title>
 <style>
 :root{
@@ -999,6 +1000,11 @@ mbar.addEventListener('click', ()=>{
   $('#iosHintX').addEventListener('click', close);
   if(/Android/.test(navigator.userAgent) && !seen) hint.style.display = 'none';
 })();
+
+/* --- 离线缓存：已部署到 https 时注册 Service Worker，断网/飞行模式也能打开 --- */
+if('serviceWorker' in navigator && location.protocol === 'https:'){
+  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
+}
 
 /* =========================================================
    4. 交互
