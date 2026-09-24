@@ -342,6 +342,9 @@ body{
   html .jb-time{flex:0 0 76px;font-size:11.6px}
   html .jb-row{gap:8px}
   html .jb-do{font-size:12.4px}
+  html .traf{margin-top:10px;padding:9px 11px 9px 9px;gap:8px}
+  html .tf-x{font-size:12.2px}
+  html .tf-k{font-size:10.2px;padding:2px 8px}
   /* 触屏不依赖 hover */
   .day-hd:hover,.item:hover{background:transparent}
   .chk:hover{border-color:var(--line);background:var(--card)}
@@ -443,11 +446,18 @@ body{
 .jr{display:flex;gap:8px;background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:9px 11px;font-size:12.4px;line-height:1.6;color:var(--ink2)}
 .jr span{flex:0 0 auto}
 .jr b{color:var(--ink)}
+
+/* ===== 每日交通小卡（标红） ===== */
+.traf{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:10px 13px 10px 11px;background:var(--red-soft);border:1px solid var(--red-line);border-left:4px solid var(--red);border-radius:12px}
+.tf-ic{font-size:15px;line-height:1.35;flex:0 0 auto}
+.tf-k{display:inline-block;font-size:10.6px;font-weight:900;letter-spacing:.5px;color:#fff;background:var(--red);border-radius:999px;padding:2px 9px;margin-right:7px;vertical-align:1px;white-space:nowrap}
+.tf-x{font-size:12.7px;line-height:1.66;color:var(--ink2);overflow-wrap:anywhere}
+.tf-x b{color:var(--red-tx)}
 .mbar .mb-tgtg{flex:0 0 auto;margin-left:8px;font-size:11.4px;font-weight:800;color:#0b3d24;background:#7ff0b6;padding:6px 10px;border-radius:999px;display:none}
 .mbar .mb-tgtg.on{display:block}
 
 @media print{
-  html[data-dark="1"]{--ink:#1b2430;--ink2:#3c4a58;--muted:#7c8b96;--line:#e3eaee;--card:#ffffff;--card2:#ffffff;--soft:#f5f8fa;--track:#eef2f5;--tint:#f5f8fa;--bg-a:#fff;--bg-b:#fff;--bg-c:#fff;--hero-a:#fff;--hero-b:#fff;--hero-c:#fff;--now-a:#fff;--now-b:#fff;--nowhd-a:#fff;--nowhd-b:#fff}
+  html[data-dark="1"]{--ink:#1b2430;--ink2:#3c4a58;--muted:#7c8b96;--line:#e3eaee;--card:#ffffff;--card2:#ffffff;--soft:#f5f8fa;--track:#eef2f5;--tint:#f5f8fa;--bg-a:#fff;--bg-b:#fff;--bg-c:#fff;--hero-a:#fff;--hero-b:#fff;--hero-c:#fff;--now-a:#fff;--now-b:#fff;--nowhd-a:#fff;--nowhd-b:#fff;--red:#c0392b;--red-soft:rgba(192,57,43,.06);--red-line:rgba(192,57,43,.26);--red-tx:#9e2b1f}
   .copybtn,.darkbtn,#btnDark{display:none!important}
   body{background:#fff}
   .orb,.veil,.tools,.now,.mbar,.ioshint{display:none}
@@ -722,6 +732,7 @@ function it(t, s, e, tag, text, soft){
 const DAYS = [
 { d:0, y:2026, mo:9, dd:26, tz:TZ.MNL, emoji:'✈️', city:'马尼拉 · 菲律宾（过境）', tzLabel:'马尼拉时间', th:'manila',
   title:'马尼拉一日：王城区 Citywalk 与马尼拉湾落日',
+  traffic:'机场 ↔ Newport 全程走 <b>Runway Manila 天桥（步行）</b>；进市区用 <b>Grab</b>，约 300–350 比索 / 50 分钟；<b>17:00 之后一律改摩的（JoyRide / Angkas）</b>穿车流，别坐在车里等地狱级堵车',
   items:[
     it('08:05','08:05','10:35','出海','广州 (CAN) 飞 马尼拉 (MNL) T3 航站楼。'),
     it('11:00','11:00','11:45','通关与免费寄存','走海关通道，凭护照 + 申根签 + 登机牌<b>免签入境</b>。出机场走 <b>Runway Manila 天桥</b>到对面的 <b>Newport World Resorts（新港世界度假村）</b>，凭护照登记<b>免费寄存行李</b>，彻底甩手。'),
@@ -735,6 +746,7 @@ const DAYS = [
   ]},
 { d:1, y:2026, mo:9, dd:27, tz:TZ.PAR, emoji:'🍷', city:'波尔多 · 法国', tzLabel:'法国时间', th:'bordeaux',
   title:'落地波尔多，无缝衔接酒庄与 Vintage',
+  traffic:'机场叫 <b>Uber</b>；在 <b>Pessac Centre 站机器买 24 小时交通票（约 5.3 欧）</b>；全天靠 <b>Tram B 线</b>（往 Berges de la Garonne），一趟穿城约 40 分钟',
   items:[
     it('05:05','05:05','07:15','转机','伊斯坦布尔 (IST) 短暂停留，换乘飞往波尔多。'),
     it('10:10','10:10',null,'抵达','降落波尔多 (BOD)。取行李出大厅，叫 Uber。'),
@@ -746,6 +758,7 @@ const DAYS = [
   ]},
 { d:2, y:2026, mo:9, dd:28, tz:TZ.PAR, emoji:'🌊', city:'波尔多 → 尼斯', tzLabel:'法国时间', th:'bordeaux',
   title:'告别微醺，空降蔚蓝海岸',
+  traffic:'波尔多：<b>La Cité du Vin 站刷 24h 票 → Porte de Bourgogne 站同站台换 Tram A（Aéroport 方向）</b>直通机场；尼斯：机场 <b>Tram L2（往 Port Lympia）</b>5 站到 Sainte-Hélène',
   items:[
     it('09:30','09:30','12:00','酒城','从酒店步行 5–8 分钟参观 La Cité du Vin，周边买三明治简餐。<br><b>💡 隐藏任务：在波尔多买好一瓶心仪的红酒，放进行李箱托运！</b>'),
     it('12:30','12:30','13:30','白嫖去机场','轻轨站 La Cité du Vin 刷 24h 票上 <b>Tram B 线</b>，到 Porte de Bourgogne 站下，同站台换乘 <b>Tram A 线（认准 Aéroport 方向）</b>直达机场。'),
@@ -756,6 +769,7 @@ const DAYS = [
   ]},
 { d:3, y:2026, mo:9, dd:29, tz:TZ.PAR, emoji:'🏎️', city:'芒通 · 摩纳哥', tzLabel:'法国时间', th:'riviera',
   title:'南法东线（芒通与摩纳哥 F1 超跑）',
+  traffic:'城际全靠 <b>TER 沿海铁路</b>：Nice-Ville ↔ Menton ↔ Monaco-Monte-Carlo（一段仅 12 分钟）；尼斯市内坐 <b>Tram L2</b> 到 Jean Médecin，再步行 8 分钟去 Nice-Ville 正门碰头',
   items:[
     it('08:50','08:50','09:30','碰头','出门坐 Tram L2 到 Jean Médecin 站，向北步行 8 分钟。<b>09:30 在 Nice-Ville（尼斯中央火车站）正门与朋友碰头。</b>'),
     it('09:40','09:40','12:30','芒通','坐 TER 至 Menton-Garavan 站：沙滩 → 黄色阶梯 → 圣米歇尔教堂 → Eau de Menton。午餐 La Trattoria；<b>🍦 必吃：饭后直奔 TUTTI FRUTTI</b>，吃芒通当地最棒的意式 Gelato。'),
@@ -765,6 +779,7 @@ const DAYS = [
   ]},
 { d:4, y:2026, mo:9, dd:30, tz:TZ.PAR, emoji:'🌅', city:'昂蒂布 · 自由城 · 尼斯', tzLabel:'法国时间', th:'azur',
   title:'南法西线（老城与天使湾）',
+  traffic:'一天三段 <b>TER</b>：Nice-Ville → Antibes → Villefranche-sur-Mer → Nice-Ville；回城后转市内 <b>Tram L1 到 Opéra</b>，步行 5 分钟到海边坐免费电梯上城堡山',
   items:[
     it('09:30','09:30','10:00','昂蒂布','Nice-Ville 站碰头，坐 TER（往 Cannes 方向）到 Antibes 站。出站<b>平地步行 10–15 分钟</b>到老城。'),
     it('12:30','12:30',null,'午餐','LA CIVETTE 餐厅；<b>🍦 必吃：Gelateria del porto</b>，举着冰淇淋看游艇。'),
@@ -773,6 +788,7 @@ const DAYS = [
   ]},
 { d:5, y:2026, mo:10, dd:1, tz:TZ.ZRH, emoji:'🇨🇭', city:'尼斯 → 日内瓦 → 伯尔尼', tzLabel:'瑞士时间', th:'swiss',
   title:'瑞士交接（面基拿神票）',
+  traffic:'尼斯 <b>Tram L2</b> 去机场；瑞士落地即上车：日内瓦机场火车站直接上 <b>IR15 / IC5 直达列车</b>（2 等座）到 Bern HB，全程出示 <b>Coop 实体日票</b>（拿票后当场用笔填日期）',
   items:[
     it('上午','09:00','13:30','留白','睡到自然醒，酒店周边海滩彻底放空。', true),
     it('13:30','13:30','16:35','转场','坐 Tram L2 去机场。<b>15:35 尼斯飞日内瓦 (GVA)，16:35 落地。</b>'),
@@ -781,6 +797,7 @@ const DAYS = [
   ]},
 { d:6, y:2026, mo:10, dd:2, tz:TZ.ZRH, emoji:'⛰️', city:'卢塞恩 · 石丹峰 · 瑞吉山', tzLabel:'瑞士时间', th:'lucerne',
   title:'卢塞恩大环线（三神山全免与打折晚餐）',
+  traffic:'伯尔尼直达卢塞恩 → <b>地下通道 12/13 站台</b>到 Stans（凭 Coop 票 <b>免费换登顶票</b>，双层缆车）→ 回火车站正门过马路 <b>上湖游船到 Vitznau（全免）</b> → 红齿轨上 Rigi Kulm → 蓝齿轨摸黑下 <b>Arth-Goldau</b> 换火车回伯尔尼',
   items:[
     it('08:30','08:30','10:30','敞篷缆车','伯尔尼直达卢塞恩。地下通道转 12/13 站台坐到 Stans 站。出站步行 5 分钟<b>凭 Coop 票免费换登顶票</b>，体验石丹峰双层缆车。'),
     it('12:30','12:30',null,'烤鸡腿战术','回卢塞恩火车站，冲进负一层<b>巨型 Coop 超市</b>买烤鸡腿、沙拉野餐。'),
@@ -790,6 +807,7 @@ const DAYS = [
   ]},
 { d:7, y:2026, mo:10, dd:3, tz:TZ.ZRH, emoji:'🏞️', city:'坎德施泰格 · 因特拉肯 · 文根', tzLabel:'瑞士时间', th:'alps',
   title:'峡谷瀑布（冰川湖与无车小镇）',
+  traffic:'伯尔尼 <b>RE → Kandersteg</b>；经 <b>Spiez 换乘</b>到 Interlaken Ost；再坐 <b>BOB 蓝黄列车（认准 Lauterbrunnen 车厢）</b>，换黄色 <b>WAB 齿轨（全免）</b>上 Wengen；傍晚原路返回',
   items:[
     it('09:00','09:00','12:30','冰川湖','伯尔尼坐 RE 至 Kandersteg，出站走 15 分钟坐缆车看<b>厄希嫩湖 (Oeschinensee)</b>。'),
     it('13:00','13:00','15:00','大枢纽补给','下山回 Kandersteg，经 Spiez 换乘至<b>因特拉肯东站 (Interlaken Ost)</b>。出站右转大超市买午餐。'),
@@ -798,6 +816,7 @@ const DAYS = [
   ]},
 { d:8, y:2026, mo:10, dd:4, tz:TZ.PAR, emoji:'🇫🇷', city:'伯尔尼 → 巴黎', tzLabel:'法国时间', th:'paris',
   title:'杀入巴黎（手机交通卡实操）',
+  traffic:'伯尔尼 → <b>Basel SBB 换 TGV</b> 抵巴黎里昂站；巴黎：<b>在座位上用 Apple Pay 开通 Navigo 虚拟卡 + 买 10 次票（Carnet）</b>，跟着 Ⓜ️14（浅紫）→ Pyramides 转 Ⓜ️7（粉色）→ Cadet；市内靠 Ⓜ️ 7/1/9 号串联',
   items:[
     it('09:04','09:04','13:38','跨国','伯尔尼 → Basel SBB 换乘 → TGV 高铁抵达<b>巴黎里昂站</b>。'),
     it('13:38','13:38','14:30','甩行李','【极重要】在座位上用 Apple Pay 开通 <b>Navigo 虚拟卡</b>，买 10 次票 (Carnet)。下车跟着 Ⓜ️14（浅紫）走，刷手机过闸；14 号线至 Pyramides 转 Ⓜ️7（粉色）至 Cadet 站，出站往南 2 分钟，前台扔下行李。'),
@@ -808,6 +827,7 @@ const DAYS = [
   ]},
 { d:9, y:2026, mo:10, dd:5, tz:TZ.PAR, emoji:'🛍️', city:'巴黎', tzLabel:'法国时间', th:'parisrose',
   title:'香奈儿总店与平价法餐',
+  traffic:'全天用 <b>Navigo 10 次票刷手机</b>：Ⓜ️ 到 Opéra 排队 → 卢浮宫 → Ⓜ️8 到 Grands Boulevards 吃百年食堂；末段沿 Rue La Fayette <b>步行 10–15 分钟走回酒店</b>',
   items:[
     it('09:20','09:20','11:30','排队','地铁去 Opéra 站。<b>09:40 在 Chanel 康朋街 31 号总店排队</b>，拿捏白盒子。'),
     it('11:30','11:30','13:30','闲逛','逛皇家宫殿黑白柱、里沃利街，吃午饭。'),
@@ -819,6 +839,7 @@ const DAYS = [
   ]},
 { d:10, y:2026, mo:10, dd:6, tz:TZ.LUX, emoji:'🇱🇺', city:'巴黎 → 卢森堡', tzLabel:'卢森堡时间', th:'lux',
   title:'完美撤退（卢森堡半日游与全景电梯）',
+  traffic:'巴黎东站<b>步行即到</b>（8–10 分钟），<b>TGV 到卢森堡</b>；卢森堡<b>全城公交 / 电车免费</b>——老城与机场全靠 <b>T1 有轨电车</b>（火车站门口上车、专用轨道不堵车、约 25 分钟直达机场）；大件行李先存火车站自助柜',
   items:[
     it('06:50','06:50','07:05','极速上车','退房，推行李向北<b>步行 8–10 分钟</b>直达巴黎东站，买咖啡牛角包。'),
     it('07:35','07:35','09:50','跨国','坐 TGV 抵达<b>卢森堡 (Luxembourg) 火车站</b>。'),
@@ -832,6 +853,7 @@ const DAYS = [
   ]},
 { d:11, y:2026, mo:10, dd:7, tz:TZ.HKG, emoji:'🛬', city:'香港', tzLabel:'香港时间', th:'hk',
   title:'满载而归',
+  traffic:'落地 HKG 后自由发挥：<b>机场快线</b>到九龙 / 香港站最快，或直接打车；全程交通到此收官',
   items:[
     it('17:15','17:15',null,'抵达','航班顺利落地<b>香港 (HKG)</b>。行程圆满结束！')
   ]}
@@ -909,7 +931,8 @@ function themeVars(t){
     '--nowhd-a':mixHex(acc,W6,.93), '--nowhd-b':mixHex(sec,W6,.94),
     '--deep-a':t.deep, '--deep-b':t.deepb, '--deep-c':mixHex(t.deep,t.deepb,.5),
     '--deep-ink':mixHex(t.deep,W6,.88), '--deep-soft':mixHex(acc,W6,.55), '--deep-dot':mixHex(acc,W6,.3),
-    '--warn':'#b06a00', '--urg':'#c0392b'
+    '--warn':'#b06a00', '--urg':'#c0392b',
+    '--red':'#c0392b', '--red-soft':'rgba(192,57,43,.06)', '--red-line':'rgba(192,57,43,.26)', '--red-tx':'#9e2b1f'
   };
   if(!DARK) return base;
   /* 夜览：只反转「中性面」那一层，城市强调色保持一致 */
@@ -925,7 +948,8 @@ function themeVars(t){
     '--hero-a':mixHex(surf,W6,.06), '--hero-b':mixHex(surf,t.deepb,.5), '--hero-c':mixHex(surf,'#000000',.24),
     '--now-a':mixHex(surf,t.deepb,.34), '--now-b':mixHex(surf,t.deepb,.55),
     '--nowhd-a':mixHex(surf,t.deepb,.38), '--nowhd-b':mixHex(surf,'#000000',.2),
-    '--warn':'#f0b429', '--urg':'#ff6b5e'
+    '--warn':'#f0b429', '--urg':'#ff6b5e',
+    '--red':'#ff6b5e', '--red-soft':'rgba(255,107,94,.11)', '--red-line':'rgba(255,107,94,.34)', '--red-tx':'#ffb3a8'
   });
 }
 
@@ -1225,7 +1249,7 @@ DAYS.forEach(day=>{
       </div>
       <div class="caret">▼</div>
     </div>
-    <div class="day-bd"><div class="items"></div></div>`;
+    <div class="day-bd">${day.traffic ? `<div class="traf"><span class="tf-ic">🚇</span><div><span class="tf-k">今日交通</span><span class="tf-x">${day.traffic}</span></div></div>` : ''}<div class="items"></div></div>`;
   tl.appendChild(el);
 
   const itemsBox = el.querySelector('.items');
@@ -1853,7 +1877,7 @@ document.addEventListener('input', e=>{
 /* =========================================================
    3.9 离线就绪指示
    ========================================================= */
-const APP_V = 'v11';
+const APP_V = 'v12';
 (function offStat(){
   const el = document.getElementById('offStat');
   if(!el) return;
