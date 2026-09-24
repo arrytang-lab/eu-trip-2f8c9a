@@ -343,8 +343,9 @@ body{
   html .jb-row{gap:8px}
   html .jb-do{font-size:12.4px}
   html .traf{margin-top:10px;padding:9px 11px 9px 9px;gap:8px}
-  html .tf-x{font-size:12.2px}
-  html .tf-k{font-size:10.2px;padding:2px 8px}
+  html .mv{margin-top:7px;padding:5px 9px 5px 7px;gap:6px}
+  html .mv-x{font-size:11.5px}
+  html .mv-k{font-size:9.4px;padding:1.5px 6px}
   /* 触屏不依赖 hover */
   .day-hd:hover,.item:hover{background:transparent}
   .chk:hover{border-color:var(--line);background:var(--card)}
@@ -447,12 +448,10 @@ body{
 .jr span{flex:0 0 auto}
 .jr b{color:var(--ink)}
 
-/* ===== 每日交通小卡（标红） ===== */
-.traf{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:10px 13px 10px 11px;background:var(--red-soft);border:1px solid var(--red-line);border-left:4px solid var(--red);border-radius:12px}
-.tf-ic{font-size:15px;line-height:1.35;flex:0 0 auto}
-.tf-k{display:inline-block;font-size:10.6px;font-weight:900;letter-spacing:.5px;color:#fff;background:var(--red);border-radius:999px;padding:2px 9px;margin-right:7px;vertical-align:1px;white-space:nowrap}
-.tf-x{font-size:12.7px;line-height:1.66;color:var(--ink2);overflow-wrap:anywhere}
-.tf-x b{color:var(--red-tx)}
+/* ===== 每个时间节点的「移动方式」小卡（标红，注释在最后） ===== */
+.mv{display:inline-flex;gap:7px;align-items:baseline;max-width:100%;margin-top:8px;background:var(--red-soft);border:1px solid var(--red-line);border-left:3px solid var(--red);border-radius:9px;padding:5px 11px 5px 8px}
+.mv-k{flex:0 0 auto;font-size:9.8px;font-weight:900;letter-spacing:.5px;color:#fff;background:var(--red);border-radius:999px;padding:1.5px 7px;white-space:nowrap}
+.mv-x{font-size:11.9px;line-height:1.55;font-weight:600;color:var(--red-tx);overflow-wrap:anywhere}
 .mbar .mb-tgtg{flex:0 0 auto;margin-left:8px;font-size:11.4px;font-weight:800;color:#0b3d24;background:#7ff0b6;padding:6px 10px;border-radius:999px;display:none}
 .mbar .mb-tgtg.on{display:block}
 
@@ -859,6 +858,77 @@ const DAYS = [
   ]}
 ];
 
+/* 每个时间节点的「移动方式」小卡：与各自 items 顺序一一对应 */
+const MOVE = {
+  0: ['✈️ 飞机 广州 CAN → 马尼拉 MNL T3，约 2.5 小时',
+    '🚶 出航站楼步行 Runway Manila 天桥，约 10 分钟到 Newport',
+    '🚗 Grab 打车，约 50 分钟（300–350 比索）',
+    '🚶 王城区内全程步行',
+    '🚶 步行为主；去 SM City Manila 可短途打车',
+    '🚶 步行（王城区 → 黎刹公园）',
+    '🏍️ 摩的 JoyRide / Angkas，约 15–20 分钟',
+    '🏍️ 摩的穿车流 → 天桥步行回 T3，约 30 分钟',
+    '✈️ 登机起飞 MNL → IST'],
+  1: ['🛬 伊斯坦布尔 IST 机场内换乘，中转 1 小时 50 分',
+    '🚗 Uber 直达酒庄，约 15 分钟',
+    '🚶 酒庄内步行参观',
+    '🚶 步行 15 分钟至 Pessac Centre 电车站',
+    '🚋 Tram B 线（往 Berges de la Garonne），约 40 分钟到 Bassins à Flot',
+    '🚋 Tram B 返市中心，Hôtel de Ville 站下车',
+    '🚶 步行至水镜池与餐厅'],
+  2: ['🚶 酒店步行 5–8 分钟到 La Cité du Vin',
+    '🚋 La Cité du Vin 站 Tram B → Porte de Bourgogne 站，同站台换 Tram A（Aéroport 方向）直达机场',
+    '✈️ 波尔多 BOD → 尼斯 NCE，约 1.5 小时',
+    '🚋 机场 Tram L2（往 Port Lympia），5 站至 Sainte-Hélène',
+    '🚶 过马路即到餐厅；远则打车约 10 分钟',
+    '🚶 酒店过马路即到海滩'],
+  3: ['🚋 Tram L2 到 Jean Médecin 站 + 🚶 步行 8 分钟到 Nice-Ville 正门',
+    '🚆 TER 沿海铁路至 Menton-Garavan 站，约 35 分钟',
+    '🚆 TER 回芒通站 → Monaco-Monte-Carlo，约 12 分钟',
+    '🚗 摩纳哥租跑车自驾（F1 发卡弯赛道）',
+    '🚆 摩纳哥地下火车站 TER 回尼斯，约 25 分钟'],
+  4: ['🚆 TER（往 Cannes 方向）至 Antibes 站 + 🚶 老城步行 10–15 分钟',
+    '🚶 老城内步行',
+    '🚆 TER 穿城不停，Antibes → Villefranche-sur-Mer',
+    '🚆 TER 回 Nice-Ville → 🚋 转 Tram L1 到 Opéra 站 + 🚶 5 分钟到海边'],
+  5: ['🚶 酒店周边步行放空',
+    '🚋 Tram L2 去尼斯机场 + ✈️ 尼斯 NCE → 日内瓦 GVA，约 1 小时',
+    '🚶 日内瓦机场内步行至火车站大厅（同一栋建筑）',
+    '🚆 IR15 / IC5 直达列车（2 等座），约 2 小时到 Bern HB'],
+  6: ['🚆 伯尔尼 → 卢塞恩 → 地下通道 12/13 站台 → Stans 站 + 🚶 5 分钟 + 🚠 石丹峰双层缆车',
+    '🚶 火车站负一层 Coop 超市采购',
+    '🚶 火车站正门过马路 → 🚢 卢塞恩湖大游船至 Vitznau 码头',
+    '🚞 红色齿轨列车 Vitznau → Rigi Kulm',
+    '🚞 蓝齿轨摸黑下山至 Arth-Goldau + 🚆 换火车回伯尔尼'],
+  7: ['🚆 RE 至 Kandersteg + 🚶 步行 15 分钟 + 🚠 缆车上山看厄希嫩湖',
+    '🚆 下山回 Kandersteg，经 Spiez 换乘至 Interlaken Ost',
+    '🚞 BOB 蓝黄列车（认准 Lauterbrunnen 车厢）→ 换黄色 WAB 齿轨上 Wengen',
+    '🚞 原路返回：WAB 齿轨 → BOB → RE 回伯尔尼'],
+  8: ['🚆 伯尔尼 → Basel SBB 换乘 TGV → 巴黎里昂站，全程约 4.5 小时',
+    'Ⓜ️14 → Pyramides 转 Ⓜ️7 → Cadet 站 + 🚶 出站南行 2 分钟',
+    'Ⓜ️7 转 Ⓜ️1 至协和广场',
+    '🚶 协和广场步行至奥赛 / 橘园',
+    'Ⓜ️ 至 Trocadéro 站（夏约宫）',
+    '🚢 塞纳河游船 + Ⓜ️9 转 Ⓜ️7 回酒店'],
+  9: ['Ⓜ️ 至 Opéra 站，步行至康朋街 31 号总店',
+    '🚶 皇家宫殿 / 里沃利街步行闲逛',
+    '🚶 步行至卢浮宫（预约入口）',
+    '🚶 穿过杜乐丽花园步行至协和广场',
+    '🚶 步行至海军府（协和广场旁）',
+    'Ⓜ️8 号线至 Grands Boulevards',
+    '🚶 沿 Rue La Fayette 步行 10–15 分钟回酒店'],
+  10: ['🚶 推行李向北步行 8–10 分钟到巴黎东站',
+    '🚆 TGV 巴黎东站 → 卢森堡火车站，约 2 小时 15 分',
+    '🚶 站内寄存行李 + 门口 🚋 T1 电车（往 Luxexpo / Kirchberg）',
+    '🚋 T1 电车驶过峡谷，Place de Metz 站下车',
+    '🚶 步行 2 分钟（金色少女像 → 宪法广场 → 圣母大教堂）',
+    '🚶 老城石板路向北步行 5–7 分钟',
+    '🚶 向北步行约 10 分钟 + 🛗 Pfaffenthal 免费全景电梯（60 米直降谷底）',
+    '🛗 电梯回上层 + 🚶 3 分钟到 Fondation Pescatore 站 + 🚋 T1 回火车站',
+    '🚋 T1 电车直达机场（Aéroport 方向），约 25 分钟'],
+  11: ['✈️ 航班落地 HKG；之后机场快线（到九龙 / 香港站）或打车']
+};
+
 /* 预计算绝对时刻 */
 DAYS.forEach((day, di)=>{
   const next = DAYS[di+1];
@@ -1249,14 +1319,16 @@ DAYS.forEach(day=>{
       </div>
       <div class="caret">▼</div>
     </div>
-    <div class="day-bd">${day.traffic ? `<div class="traf"><span class="tf-ic">🚇</span><div><span class="tf-k">今日交通</span><span class="tf-x">${day.traffic}</span></div></div>` : ''}<div class="items"></div></div>`;
+    <div class="day-bd"><div class="items"></div></div>`;
   tl.appendChild(el);
 
   const itemsBox = el.querySelector('.items');
-  day.items.forEach(x=>{
+  day.items.forEach((x, xi)=>{
     const r = document.createElement('div');
     r.className = 'item' + (x.soft ? ' soft' : '');
     const hasTgtg = /TGTG/.test(x.text);
+    const mvArr = MOVE[day.d];
+    const mv = (mvArr && mvArr[xi]) ? `<div class="mv"><span class="mv-k">交通</span><span class="mv-x">${mvArr[xi]}</span></div>` : '';
     const tm = x.soft && x.s && x.e
       ? `<div class="s">${x.t}</div><span class="e">${x.s}–${x.e}</span>`
       : (x.s && x.e
@@ -1267,6 +1339,7 @@ DAYS.forEach(day=>{
       <div class="cx">
         <span class="tag">${x.tag}</span>
         <div class="tx">${pinify(x.text, PINS[day.d])}</div>
+        ${mv}
         ${hasTgtg ? `<a class="tgtg-btn" href="${TGTG.web}" data-tgtg="1" target="_blank" rel="noopener"><span class="tgp"></span>打开 TGTG App 抢盲袋</a>` : ''}
         <div class="prog" style="display:none"><i style="width:0%"></i></div>
         <div class="leftnote" style="display:none"></div>
@@ -1483,6 +1556,8 @@ function renderNow(now, phase, today, cur, nxt){
     } else {
       const dayTag = `DAY ${today.d} · ${today.emoji} ${today.city}`;
       const qOf = x => x ? ((PINS[today.d]||[]).filter(p => plain(x.text).indexOf(p[0]) >= 0).map(p=>p[1])[0] || '') : '';
+      const mvOf = x => x ? ((MOVE[today.d]||[])[today.items.indexOf(x)] || '') : '';
+      const mvHtml = x => mvOf(x) ? `<div class="mv" style="margin-top:9px"><span class="mv-k">交通</span><span class="mv-x">${mvOf(x)}</span></div>` : '';
       if(cur){
         const hasEnd = !!cur.endAt;
         const curQ = qOf(cur);
@@ -1492,6 +1567,7 @@ function renderNow(now, phase, today, cur, nxt){
               <span class="now-tag${cur.soft ? ' gap' : ''}">${cur.soft ? '弹性时段进行中' : '进行中'} · ${cur.tag}</span>
               <div class="now-text">${plain(cur.text)}</div>
               <div class="now-meta">${dayTag} &nbsp;·&nbsp; ${cur.s ? cur.s + (cur.e ? ' – ' + cur.e : ' 起') : cur.t} &nbsp;·&nbsp; ${today.tzLabel}</div>
+              ${mvHtml(cur)}
               ${curQ ? `<button class="copybtn" type="button" data-copy-q="${escAttr(curQ)}">📋 复制地址（当地语言）</button>` : ''}
             </div>
             <div class="now-right"><div class="k">${hasEnd ? '本项剩余' : '已用时'}</div><div class="big" data-left></div></div>
@@ -1511,6 +1587,7 @@ function renderNow(now, phase, today, cur, nxt){
               <span class="now-tag gap">${gapTag}</span>
               <div class="now-text">${nxt ? '下一项：' + plain(nxt.text) : '今日日程已结束'}</div>
               <div class="now-meta">${dayTag} &nbsp;·&nbsp; ${nxt ? (nxt.s || nxt.t) + ' 开始 · ' + today.tzLabel : '切换到休息模式'}</div>
+              ${mvHtml(nxt)}
               ${nxtQ ? `<button class="copybtn" type="button" data-copy-q="${escAttr(nxtQ)}">📋 复制下一站地址</button>` : ''}
             </div>
             <div class="now-right"><div class="k">${nxt ? '距下一项' : '状态'}</div><div class="big" data-left></div></div>
@@ -1877,7 +1954,7 @@ document.addEventListener('input', e=>{
 /* =========================================================
    3.9 离线就绪指示
    ========================================================= */
-const APP_V = 'v12';
+const APP_V = 'v13';
 (function offStat(){
   const el = document.getElementById('offStat');
   if(!el) return;
